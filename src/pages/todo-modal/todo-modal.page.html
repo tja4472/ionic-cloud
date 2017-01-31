@@ -1,0 +1,47 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons left>
+            <button ion-button (click)="dismiss()">
+                cancel      
+            </button>
+        </ion-buttons>
+        <ion-buttons end>
+            <button ion-button (click)="save()" [disabled]="!(this.todoForm.dirty && this.todoForm.valid)">
+                save      
+            </button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="page1">
+
+    <ion-list>
+        <form [formGroup]="todoForm" novalidate>
+            <ion-item>
+                <ion-label color="primary">Complete?</ion-label>
+                <ion-checkbox formControlName="isComplete">
+                </ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating color="primary">Name</ion-label>
+                <ion-input type="text" formControlName="nameA">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label floating color="primary">Description</ion-label>
+                <ion-input type="text" formControlName="description">
+                </ion-input>
+            </ion-item>
+        </form>
+    </ion-list>
+
+<h3>Form</h3>
+dirty: {{todoForm.dirty}}<br>
+invalid: {{todoForm.invalid}}<br>
+pristine: {{todoForm.pristine}}<br>
+touched: {{todoForm.touched}}<br>
+untouched: {{todoForm.untouched}}<br>
+valid: {{todoForm.valid}}
+</ion-content>
