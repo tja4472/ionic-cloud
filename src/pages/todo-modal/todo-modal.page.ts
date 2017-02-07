@@ -17,7 +17,8 @@ export class TodoModalPage {
         description: null,
         name: '',
         index: 0,
-        isComplete: false
+        isComplete: false,
+        userId: undefined,
     };
 
     private isEditing: boolean;

@@ -8,7 +8,9 @@
 </ion-header>
 
 <ion-content padding>
-  User {{this.authService.activeUser.getValue()?.email}}
+  <h1>activeUser</h1>
+  Email: {{this.authService.activeUser.getValue()?.email}}<br>
+  Id: {{this.authService.activeUser.getValue()?.id}}<br>
   <p>
     <button ion-button (click)="doLogout()">LOGOUT</button>
   </p>

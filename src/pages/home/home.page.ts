@@ -11,7 +11,8 @@ export class HomePage {
 
   constructor(
     public navCtrl: NavController,
-    private authService: AuthService) {
+    private authService: AuthService,
+    ) {
 
   }
 

@@ -5,7 +5,7 @@ import {
   NavController,
 } from 'ionic-angular';
 
-import { Database } from '@ionic/cloud-angular';
+// import { Database } from '@ionic/cloud-angular';
 
 import { Observable } from 'rxjs/Observable';
 
@@ -22,7 +22,7 @@ export class TodosPage {
   todos$: Observable<Todo[]>;
 
   constructor(
-    public db: Database,
+   // public db: Database,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     private todoService: TodoService,

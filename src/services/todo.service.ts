@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import { Database } from '@ionic/cloud-angular';
 import { reorderArray } from 'ionic-angular';
 
+import { AuthService } from '../services/auth.service';
 import { Todo } from '../models/todo';
 
 // const FIREBASE_CURRENT_TODOS = '/todo/currentTodos';
@@ -27,6 +28,7 @@ export class TodoService {
 
     constructor(
         public db: Database,
+        private authService: AuthService,
     ) {
         console.log('TodoService:constructor');
         this.db.connect();
@@ -93,6 +95,8 @@ export class TodoService {
 
     saveItem(todo: Todo) {
         console.log('save>', todo);
+        let userId = this.authService.activeUser.value.id;
+        todo.userId = userId;
         this.db.collection('todos').store(toFirebaseTodo(todo));
 
         /*
@@ -106,7 +110,7 @@ export class TodoService {
         */
     }
 
-//toggleCompleteItem
+    //toggleCompleteItem
 
     private dummyData(): Observable<Todo[]> {
         let data: Todo[] =
@@ -115,21 +119,24 @@ export class TodoService {
                 description: 'AA-description',
                 name: 'AA-name',
                 index: 0,
-                isComplete: false
+                isComplete: false,
+                userId: 'a01',
             },
             {
                 id: 'BB',
                 description: 'BB-description',
                 name: 'BB-name',
                 index: 0,
-                isComplete: false
+                isComplete: false,
+                userId: 'a01',
             },
             {
                 id: 'CC',
                 description: 'CC-description',
                 name: 'CC-name',
                 index: 0,
-                isComplete: false
+                isComplete: false,
+                userId: 'a01',
             }];
 
         return Observable.of(data);
@@ -145,6 +152,7 @@ interface FirebaseTodo {
     index: number;
     name: string;
     isComplete: boolean;
+    userId: string;
 }
 
 function toFirebaseTodo(todo: Todo): FirebaseTodo {
@@ -155,7 +163,8 @@ function toFirebaseTodo(todo: Todo): FirebaseTodo {
         description: todo.description,
         index: todo.index,
         name: todo.name,
-        isComplete: todo.isComplete
+        isComplete: todo.isComplete,
+        userId: todo.userId,
     };
 
     console.log('toFirebaseTodo>', result);
@@ -178,7 +187,8 @@ function fromFirebaseTodo(x: any): Todo {
         description: x.description,
         index: x.index,
         isComplete: x.isComplete,
-        name: x.name
+        name: x.name,
+        userId: x.userId,
     };
 
     if (result.description === undefined) {

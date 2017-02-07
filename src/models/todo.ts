@@ -4,4 +4,5 @@ export interface Todo {
     name: string;
     description?: string;
     isComplete: boolean;
+    userId: string;     
 }
