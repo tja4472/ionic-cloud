@@ -4,6 +4,8 @@ import 'rxjs/add/operator/map';
 
 import { Auth, User, IDetailedError } from '@ionic/cloud-angular';
 
+import { ActiveUser } from '../models/active-user';
+
 // Original: https://github.com/aaronksaunders/Ionic2-Ionic.io-Auth-Example
 
 @Injectable()
@@ -11,7 +13,7 @@ export class AuthService {
     //
     // this will hold the user object when we have one, we can subscribe
     // to changes of this object to determine of we are logged in or not
-    activeUser = new BehaviorSubject(null)
+    activeUser = new BehaviorSubject<ActiveUser>(null)
 
     constructor(
         private auth: Auth,
@@ -23,7 +25,16 @@ export class AuthService {
      */
     doCheckAuth() {
         if (this.auth.isAuthenticated()) {
-            this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
+            let authUser: ActiveUser = {
+                id: this.user.id,
+                email: this.user.details.email,
+                image: this.user.details.image,
+                name: this.user.details.name,
+                userName: this.user.details.username
+            };
+
+            // this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
+            this.activeUser.next(authUser);
         }
     }
 
@@ -48,7 +59,15 @@ export class AuthService {
                 }"                
                 */
                 // create the user object based on the data retrieved...
-                this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
+                let authUser: ActiveUser = {
+                    id: this.user.id,
+                    email: this.user.details.email,
+                    image: this.user.details.image,
+                    name: this.user.details.name,
+                    userName: this.user.details.username
+                };
+                this.activeUser.next(authUser);
+                // this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
             }, (err) => {
                 // Gives POST https://api.ionic.io/auth/login 401 ()
                 // Error: Unsuccessful HTTP response
