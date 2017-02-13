@@ -25,14 +25,22 @@ export class AuthService {
      */
     doCheckAuth() {
         if (this.auth.isAuthenticated()) {
-            let authUser: ActiveUser = {
-                id: this.user.id,
-                email: this.user.details.email,
-                image: this.user.details.image,
-                name: this.user.details.name,
-                userName: this.user.details.username
-            };
-
+            let authUser = new ActiveUser(
+                this.user.id,
+                this.user.details.email,
+                this.user.details.image,
+                this.user.details.username,
+                this.user.details.name,
+            );
+            /*            
+                        let authUser: ActiveUser = {
+                            id: this.user.id,
+                            email: this.user.details.email,
+                            image: this.user.details.image,
+                            name: this.user.details.name,
+                            userName: this.user.details.username
+                        };
+            */
             // this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
             this.activeUser.next(authUser);
         }
@@ -59,13 +67,22 @@ export class AuthService {
                 }"                
                 */
                 // create the user object based on the data retrieved...
-                let authUser: ActiveUser = {
-                    id: this.user.id,
-                    email: this.user.details.email,
-                    image: this.user.details.image,
-                    name: this.user.details.name,
-                    userName: this.user.details.username
-                };
+                let authUser = new ActiveUser(
+                    this.user.id,
+                    this.user.details.email,
+                    this.user.details.image,
+                    this.user.details.username,
+                    this.user.details.name,
+                );
+                /*                
+                                let authUser: ActiveUser = {
+                                    id: this.user.id,
+                                    email: this.user.details.email,
+                                    image: this.user.details.image,
+                                    name: this.user.details.name,
+                                    userName: this.user.details.username
+                                };
+                */
                 this.activeUser.next(authUser);
                 // this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
             }, (err) => {
