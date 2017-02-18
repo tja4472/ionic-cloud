@@ -31,6 +31,9 @@ export class TodoService {
         private authService: AuthService,
     ) {
         console.log('TodoService:constructor');
+        this.db.status().subscribe((status) => {
+            console.log('db.status:status.type>', status.type);
+        });
         this.db.connect();
         this.dataStore = { todos: [] };
         this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
