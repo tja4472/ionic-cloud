@@ -24,6 +24,7 @@ export class LoginPage {
     private authService: AuthService,
     ) {
     //
+    console.log('LoginPage');
      this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],

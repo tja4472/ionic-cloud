@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { HomePage } from '../pages/home/home.page';
@@ -25,6 +25,7 @@ export interface PageInterface {
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  public displayUserName: string;
   // List of pages that can be navigated to from the left menu
   // the left menu only works after login
   // the login page disables the left menu
@@ -33,22 +34,25 @@ export class MyApp {
     { title: 'Page Two', component: Page2, icon: 'calendar' },
     { title: 'Todos Page', component: TodosPage, icon: 'calendar' },
     { title: 'Home Page', component: HomePage, icon: 'calendar' },
-    { title: 'Login', component: LoginPage, icon: 'calendar' },
+    // { title: 'Login', component: LoginPage, icon: 'calendar' },
   ];
 
   loggedInPages: PageInterface[] = [
+    { title: 'Logout', component: Page1, icon: 'log-out', logsOut: true }
   ];
 
   loggedOutPages: PageInterface[] = [
+    { title: 'Login', component: LoginPage, icon: 'log-in' },
   ];
 
-  currentUser;
+  // currentUser;
   rootPage: any; // = Page1;
 
   pages: Array<{ title: string, component: any }>;
 
   constructor(
     private authService: AuthService,
+    public menu: MenuController,
     public platform: Platform,
   ) {
     this.initializeApp();
@@ -62,31 +66,49 @@ export class MyApp {
       { title: 'Login', component: LoginPage },
       // { title: 'Logout', component: LandingPage },        
     ];
-
+    // this.enableMenu(true);  
+    // this.rootPage = HomePage;
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
+      console.log('platform.ready');
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      StatusBar.styleDefault();
-      Splashscreen.hide();
+      // StatusBar.styleDefault();
+      //     Splashscreen.hide();
+
+      // subscribe to the activeUser to see if we should go to the LoginPage
+      // or directly to the HomePage since we have a user
+      this.authService.activeUser.subscribe((_user) => {
+        console.log('activeUser.subscribe>', _user);
+        // See feedly for _user data display.
+        // get the user...
+        // this.currentUser = _user
+
+        // if user.. show data, else show login
+        if (_user) {
+          this.displayUserName = _user.email;
+          this.enableMenu(true);
+          this.rootPage = HomePage;
+        } else {
+          this.displayUserName = 'Not logged in';
+          this.enableMenu(false);
+          this.rootPage = LoginPage;
+        }
+
+        this.nav.setRoot(this.rootPage)
+          .then(() => {
+            console.log('Splashscreen.hide');
+            Splashscreen.hide();
+          });
+      });
+
+
+
     });
 
-    // subscribe to the activeUser to see if we should go to the LoginPage
-    // or directly to the HomePage since we have a user
-    this.authService.activeUser.subscribe((_user) => {
 
-      // get the user...
-      this.currentUser = _user
-
-      // if user.. show data, else show login
-      if (this.currentUser) {
-        this.rootPage = HomePage;
-      } else {
-        this.rootPage = LoginPage;
-      }
-    })
 
     // check to see if there is already a user... Ionic saves it for you,
     // this will automatically log the user in when you restart the application
@@ -97,9 +119,23 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     this.nav.setRoot(page.component);
+
+    if (page.logsOut === true) {
+      // Give the menu time to close before changing to logged out
+      setTimeout(() => {
+        this.authService.doLogout()
+      }, 1000);
+    }
   }
 
-    isActive(page: PageInterface) {
+  enableMenu(loggedIn: boolean) {
+    console.log('enableMenu>', loggedIn);
+
+    this.menu.enable(loggedIn, 'loggedInMenu');
+    this.menu.enable(!loggedIn, 'loggedOutMenu');
+  }
+
+  isActive(page: PageInterface) {
     let childNav = this.nav.getActiveChildNav();
 
     // Tabs are a special case because they have their own navigation

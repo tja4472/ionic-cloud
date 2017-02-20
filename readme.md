@@ -2,6 +2,9 @@ Created using
 ```
 ionic start ionic-cloud sidemenu --v2
 ```
+cordova platform add android
+
+ionic run android --device
 
 Ionic Cloud Documentation
 http://docs.ionic.io/

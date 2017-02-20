@@ -26,6 +26,12 @@ export class TodoService {
         todos: Todo[]
     };
 
+    /*
+    Currently this is a singleton for the app.
+    So constructor gets called once.
+    
+    Database needs to be requeried when login status changes.
+    */
     constructor(
         public db: Database,
         private authService: AuthService,
@@ -33,31 +39,94 @@ export class TodoService {
         console.log('TodoService:constructor');
         this.db.status().subscribe((status) => {
             console.log('db.status:status.type>', status.type);
+            /*
+            Didn't reconnet
+            if (status.type === 'reconnecting') {
+                console.log('Unnecessary db.connect??');
+                this.db.connect();
+            }
+            */
         });
-        this.db.connect();
-        this.dataStore = { todos: [] };
-        this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
-        this.db.collection('todos')
-            .order("index", "ascending")
-            .watch()
-            .do(x => console.log('TodoService:watch>', x))
-            // replace this with one function.
-            //.map(x => x.map(d => fromFirebaseTodo(d)))
-            .map(x => fromDatabase(x))
-            .subscribe(
-            result3 => {
-                console.log('TodosPage:result3>', result3);
-                this.dataStore.todos = result3;
-                this._todos.next(Object.assign({}, this.dataStore).todos);
-            },
-            err => { console.error(err); }
-            );
 
+        this.db.connect();
+
+        this.authService.activeUser.subscribe((_user) => {
+            console.log('TodoService:activeUser.subscribe>', _user);
+            let filterUserId: string = '';
+            if (_user) {
+                filterUserId = _user.id;
+            }
+            console.log('userId>', filterUserId);
+
+let aaa = _user ? _user.id : 'null!!';
+            console.log('aaa>', aaa);
+
+            this.dataStore = { todos: [] };
+            this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
+            this.db.collection('todos')
+                .order("index", "ascending")
+                .findAll({ userId: filterUserId })
+                .watch()
+                .do(x => console.log('TodoService:watch>', x))
+                // replace this with one function.
+                //.map(x => x.map(d => fromFirebaseTodo(d)))
+                .map(x => fromDatabase(x))
+                .subscribe(
+                result3 => {
+                    console.log('TodosPage:result3>', result3);
+                    this.dataStore.todos = result3;
+                    this._todos.next(Object.assign({}, this.dataStore).todos);
+                },
+                err => { console.error(err); }
+                );
+
+
+
+        });
+        /*
+                //need to filter by activeuser.
+                let user = this.authService.activeUser.getValue();
+                let userIdAAAA: string = '';
+        
+                if (user) {
+                    userIdAAAA = user.id;
+                }
+                console.log('userId>', userIdAAAA);
+        
+        */
+        // console.log('this.authService.activeUser.value.id>', this.authService.activeUser.value.id);
+
+        /*
+                this.dataStore = { todos: [] };
+                this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
+                this.db.collection('todos')
+                    .order("index", "ascending")
+                    .findAll({userId: userIdAAAA})
+                    .watch()
+                    .do(x => console.log('TodoService:watch>', x))
+                    // replace this with one function.
+                    //.map(x => x.map(d => fromFirebaseTodo(d)))
+                    .map(x => fromDatabase(x))
+                    .subscribe(
+                    result3 => {
+                        console.log('TodosPage:result3>', result3);
+                        this.dataStore.todos = result3;
+                        this._todos.next(Object.assign({}, this.dataStore).todos);
+                    },
+                    err => { console.error(err); }
+                    );
+        */
     }
 
     // =======
     get todos() {
         return this._todos.asObservable();
+    }
+
+    public load(
+        activeUserId: string,
+    ): void {
+        console.log('TodoService:load');
     }
     /*
         private loadAll() {
