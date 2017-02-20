@@ -87,7 +87,7 @@ export class MyApp {
         // See feedly for _user data display.
         // get the user...
         // this.currentUser = _user
-
+this.todoService.reset();
         // if user.. show data, else show login
         if (_user) {
           this.displayUserName = _user.email;
@@ -98,7 +98,6 @@ export class MyApp {
           this.displayUserName = 'Not logged in';
           this.enableMenu(false);
           this.rootPage = LoginPage;
-          this.todoService.load('----');
         }
 
         this.nav.setRoot(this.rootPage)

@@ -6,7 +6,10 @@ import { CloudSettings, CloudModule } from '@ionic/cloud-angular';
 const cloudSettings: CloudSettings = {
   'core': {
     'app_id': 'eb9cf950'
-  }
+  },
+  'database': {
+    'authType': 'authenticated'
+  }  
 };
 
 import { HomePage } from '../pages/home/home.page';

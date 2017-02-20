@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 import 'rxjs/add/operator/map';
 
-import { Auth, User, IDetailedError } from '@ionic/cloud-angular';
+import { Auth, Database, User, IDetailedError } from '@ionic/cloud-angular';
 
 import { ActiveUser } from '../models/active-user';
 
@@ -17,6 +17,7 @@ export class AuthService {
 
     constructor(
         private auth: Auth,
+        public db: Database,        
         private user: User) {
     }
 
@@ -25,6 +26,7 @@ export class AuthService {
      */
     doCheckAuth() {
         if (this.auth.isAuthenticated()) {
+            this.db.connect();
             let authUser = new ActiveUser(
                 this.user.id,
                 this.user.details.email,
@@ -57,6 +59,7 @@ export class AuthService {
             this.auth.login('basic', details).then((_result) => {
                 let aa = Object.assign({}, this.user.details, { id: this.user.id });
                 console.log('aa>', aa)
+                this.db.connect();
                 /*
                 "{
                     "image":"https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png",
