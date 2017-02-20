@@ -49,7 +49,7 @@ export class TodoService {
         });
 
         this.db.connect();
-
+/*
         this.authService.activeUser.subscribe((_user) => {
             console.log('TodoService:activeUser.subscribe>', _user);
             let filterUserId: string = '';
@@ -58,7 +58,7 @@ export class TodoService {
             }
             console.log('userId>', filterUserId);
 
-let aaa = _user ? _user.id : 'null!!';
+            let aaa = _user ? _user.id : 'null!!';
             console.log('aaa>', aaa);
 
             this.dataStore = { todos: [] };
@@ -83,6 +83,7 @@ let aaa = _user ? _user.id : 'null!!';
 
 
         });
+*/        
         /*
                 //need to filter by activeuser.
                 let user = this.authService.activeUser.getValue();
@@ -126,7 +127,25 @@ let aaa = _user ? _user.id : 'null!!';
     public load(
         activeUserId: string,
     ): void {
-        console.log('TodoService:load');
+        console.log('TodoService:load:activeUserId>', activeUserId);
+            this.dataStore = { todos: [] };
+            this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
+            this.db.collection('todos')
+                .order("index", "ascending")
+                .findAll({ userId: activeUserId })
+                .watch()
+                .do(x => console.log('TodoService:watch>', x))
+                // replace this with one function.
+                //.map(x => x.map(d => fromFirebaseTodo(d)))
+                .map(x => fromDatabase(x))
+                .subscribe(
+                result3 => {
+                    console.log('TodosPage:result3>', result3);
+                    this.dataStore.todos = result3;
+                    this._todos.next(Object.assign({}, this.dataStore).todos);
+                },
+                err => { console.error(err); }
+                );        
     }
     /*
         private loadAll() {

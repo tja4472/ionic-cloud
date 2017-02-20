@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login.page';
 import { TodosPage } from '../pages/todos/todos.page';
 
 import { AuthService } from '../services/auth.service';
+import { TodoService } from '../services/todo.service';
 
 export interface PageInterface {
   title: string;
@@ -54,6 +55,7 @@ export class MyApp {
     private authService: AuthService,
     public menu: MenuController,
     public platform: Platform,
+    private todoService: TodoService,    
   ) {
     this.initializeApp();
 
@@ -91,10 +93,12 @@ export class MyApp {
           this.displayUserName = _user.email;
           this.enableMenu(true);
           this.rootPage = HomePage;
+          this.todoService.load(_user.id);
         } else {
           this.displayUserName = 'Not logged in';
           this.enableMenu(false);
           this.rootPage = LoginPage;
+          this.todoService.load('----');
         }
 
         this.nav.setRoot(this.rootPage)
