@@ -115,6 +115,26 @@ export class AuthService {
             });
     }
 
+    doSignup(_email, _password?) {
+        if (_email.length) {
+            let details = { 'email': _email, 'password': _password };
+
+          this.auth.signup(details)
+            .then(() => {
+                return this.doLogin(_email, _password);
+            }, (err: IDetailedError<string[]>) => {
+                console.log(err)
+                for (let e of err.details) {
+                    if (e === 'conflict_email') {
+                        alert('Email already exists.');
+                    } else {
+                        // handle other errors
+                    }
+                }
+            });          
+        }
+    }
+    
     /**
      * logout and remove the user...
      */

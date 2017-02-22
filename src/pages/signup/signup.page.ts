@@ -2,19 +2,18 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { NavController } from 'ionic-angular';
-import { SignupPage } from '../signup/signup.page';
+// import { SignupPage } from '../signup/signup.page';
 
 import { AuthService } from '../../services/auth.service'
 
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: 'login.page.html'
+  templateUrl: 'signup.page.html'
 })
-export class LoginPage {
-  // login: { username?: string, password?: string } = {};
+export class SignupPage {
   submitted = false;
-  public loginForm: FormGroup; 
+  public signupForm: FormGroup; 
 
   loginState$: any;
 
@@ -24,8 +23,8 @@ export class LoginPage {
     private authService: AuthService,
     ) {
     //
-    console.log('LoginPage');
-     this.loginForm = this.formBuilder.group({
+    console.log('SignupPage');
+     this.signupForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
     });   
@@ -47,9 +46,13 @@ export class LoginPage {
   }
 
 
-  onSignup() {
+  onSignup(form: FormGroup) {
       console.log('onSignup');
-      this.nav.push(SignupPage);
+    this.submitted = true;
+    if (form.valid) {
+              console.log('EmailAuthenticationAction>', form.value.username);
+              this.authService.doSignup(form.value.username, form.value.password);
+    }
   }
 
   signInAnonymously() {

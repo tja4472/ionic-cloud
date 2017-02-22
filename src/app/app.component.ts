@@ -6,6 +6,7 @@ import { HomePage } from '../pages/home/home.page';
 import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
 import { LoginPage } from '../pages/login/login.page';
+import { SignupPage } from '../pages/signup/signup.page';
 import { TodosPage } from '../pages/todos/todos.page';
 
 import { AuthService } from '../services/auth.service';
@@ -43,6 +44,7 @@ export class MyApp {
 
   loggedOutPages: PageInterface[] = [
     { title: 'Login', component: LoginPage, icon: 'log-in' },
+    { title: 'Signup', component: SignupPage, icon: 'log-in' },    
   ];
 
   // currentUser;

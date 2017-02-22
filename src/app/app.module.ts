@@ -19,6 +19,7 @@ import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
 
 import { LoginPage } from '../pages/login/login.page';
+import { SignupPage } from '../pages/signup/signup.page';
 import { TodosPage } from '../pages/todos/todos.page';
 import { TodoModalPage } from '../pages/todo-modal/todo-modal.page';
 
@@ -39,6 +40,7 @@ import { TodoService } from '../services/todo.service';
     Page1,
     Page2,
     LoginPage,
+SignupPage,    
     TodosPage,
     TodoListComponent,
     TodoModalPage,
@@ -52,6 +54,7 @@ import { TodoService } from '../services/todo.service';
     HomePage,
     MyApp,
     LoginPage,
+SignupPage,    
     Page1,
     Page2,
     TodosPage,
