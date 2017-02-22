@@ -33,12 +33,11 @@ export class MyApp {
   appPages: PageInterface[] = [
     { title: 'Page One', component: Page1, icon: 'calendar' },
     { title: 'Page Two', component: Page2, icon: 'calendar' },
-    { title: 'Todos Page', component: TodosPage, icon: 'calendar' },
-    { title: 'Home Page', component: HomePage, icon: 'calendar' },
-    // { title: 'Login', component: LoginPage, icon: 'calendar' },
   ];
 
   loggedInPages: PageInterface[] = [
+    { title: 'Home Page', component: HomePage, icon: 'calendar' },
+    { title: 'Todos Page', component: TodosPage, icon: 'calendar' },
     { title: 'Logout', component: Page1, icon: 'log-out', logsOut: true }
   ];
 
@@ -55,21 +54,9 @@ export class MyApp {
     private authService: AuthService,
     public menu: MenuController,
     public platform: Platform,
-    private todoService: TodoService,    
+    private todoService: TodoService,
   ) {
     this.initializeApp();
-
-    // used for an example of ngFor and navigation
-    this.pages = [
-      { title: 'Page One', component: Page1 },
-      { title: 'Page Two', component: Page2 },
-      { title: 'Todos Page', component: TodosPage },
-      { title: 'Home Page', component: HomePage },
-      { title: 'Login', component: LoginPage },
-      // { title: 'Logout', component: LandingPage },        
-    ];
-    // this.enableMenu(true);  
-    // this.rootPage = HomePage;
   }
 
   initializeApp() {
@@ -87,12 +74,12 @@ export class MyApp {
         // See feedly for _user data display.
         // get the user...
         // this.currentUser = _user
-this.todoService.reset();
+        this.todoService.reset();
         // if user.. show data, else show login
         if (_user) {
           this.displayUserName = _user.email;
           this.enableMenu(true);
-          this.rootPage = HomePage;
+          this.rootPage = TodosPage;
           this.todoService.load(_user.id);
         } else {
           this.displayUserName = 'Not logged in';
@@ -106,12 +93,7 @@ this.todoService.reset();
             Splashscreen.hide();
           });
       });
-
-
-
     });
-
-
 
     // check to see if there is already a user... Ionic saves it for you,
     // this will automatically log the user in when you restart the application
@@ -132,8 +114,6 @@ this.todoService.reset();
   }
 
   enableMenu(loggedIn: boolean) {
-    console.log('enableMenu>', loggedIn);
-
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }
