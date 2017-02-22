@@ -48,6 +48,7 @@ export class TodosPage {
 
   toggleCompleteItem(item: Todo) {
     console.log('completeItem:item>', item);
+    this.todoService.toggleCompleteItem(item);
   }
 
   editItem(item: Todo) {

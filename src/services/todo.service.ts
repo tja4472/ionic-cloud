@@ -200,7 +200,10 @@ export class TodoService {
         */
     }
 
-    //toggleCompleteItem
+    public toggleCompleteItem(todo: Todo): void {
+        todo.isComplete = !todo.isComplete;
+        this.saveItem(todo);
+    }
 
     private dummyData(): Observable<Todo[]> {
         let data: Todo[] =
