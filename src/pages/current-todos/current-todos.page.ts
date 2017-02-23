@@ -12,7 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../models/todo';
 
-import { TodoModalPage } from '../todo-modal/todo-modal.page';
+import { CurrentTodoDetailPage } from '../current-todo-detail/current-todo-detail.page';
 
 @Component({
   selector: 'current-todos-page',
@@ -33,7 +33,7 @@ export class CurrentTodosPage {
 
   createItem() {
     console.log('createItem');
-    let modal = this.modalCtrl.create(TodoModalPage);
+    let modal = this.modalCtrl.create(CurrentTodoDetailPage);
 
     modal.onDidDismiss((data: Todo) => {
       console.log('onDidDismiss>', data);
@@ -57,7 +57,7 @@ export class CurrentTodosPage {
     // todo = assign(todo, item);
 
 
-    let modal = this.modalCtrl.create(TodoModalPage, { todo: item });
+    let modal = this.modalCtrl.create(CurrentTodoDetailPage, { todo: item });
 
     modal.onDidDismiss((data: Todo) => {
       console.log('onDidDismiss>', data);

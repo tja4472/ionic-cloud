@@ -5,10 +5,10 @@ import { Todo } from '../../models/todo';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-    selector: 'page-todo-modal',
-    templateUrl: 'todo-modal.page.html',
+    selector: 'page-current-todo-detail',
+    templateUrl: 'current-todo-detail.page.html',
 })
-export class TodoModalPage {
+export class CurrentTodoDetailPage {
     public todoForm: FormGroup;
 
     private formResult: Todo =

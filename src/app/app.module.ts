@@ -11,7 +11,7 @@ const cloudSettings: CloudSettings = {
     'authType': 'authenticated'
   }  
 };
-
+import { CurrentTodoDetailPage } from '../pages/current-todo-detail/current-todo-detail.page';
 import { CurrentTodosPage } from '../pages/current-todos/current-todos.page';
 import { HomePage } from '../pages/home/home.page';
 
@@ -21,7 +21,7 @@ import { Page2 } from '../pages/page2/page2';
 
 import { LoginPage } from '../pages/login/login.page';
 import { SignupPage } from '../pages/signup/signup.page';
-import { TodoModalPage } from '../pages/todo-modal/todo-modal.page';
+
 
 import { TodoListComponent } from '../components/todo-list/todo-list.component';
 
@@ -35,6 +35,7 @@ import { TodoService } from '../services/todo.service';
 
 @NgModule({
   declarations: [
+    CurrentTodoDetailPage,    
     CurrentTodosPage,    
     HomePage,
     MyApp,
@@ -43,7 +44,6 @@ import { TodoService } from '../services/todo.service';
     LoginPage,
 SignupPage,    
     TodoListComponent,
-    TodoModalPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -51,6 +51,7 @@ SignupPage,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    CurrentTodoDetailPage,    
     CurrentTodosPage,    
     HomePage,
     MyApp,
@@ -58,7 +59,6 @@ SignupPage,
 SignupPage,    
     Page1,
     Page2,
-    TodoModalPage,
   ],
   providers: [
     AuthService,
