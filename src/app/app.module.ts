@@ -12,6 +12,7 @@ const cloudSettings: CloudSettings = {
   }  
 };
 
+import { CurrentTodosPage } from '../pages/current-todos/current-todos.page';
 import { HomePage } from '../pages/home/home.page';
 
 import { MyApp } from './app.component';
@@ -20,7 +21,6 @@ import { Page2 } from '../pages/page2/page2';
 
 import { LoginPage } from '../pages/login/login.page';
 import { SignupPage } from '../pages/signup/signup.page';
-import { TodosPage } from '../pages/todos/todos.page';
 import { TodoModalPage } from '../pages/todo-modal/todo-modal.page';
 
 import { TodoListComponent } from '../components/todo-list/todo-list.component';
@@ -35,13 +35,13 @@ import { TodoService } from '../services/todo.service';
 
 @NgModule({
   declarations: [
+    CurrentTodosPage,    
     HomePage,
     MyApp,
     Page1,
     Page2,
     LoginPage,
 SignupPage,    
-    TodosPage,
     TodoListComponent,
     TodoModalPage,
   ],
@@ -51,13 +51,13 @@ SignupPage,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    CurrentTodosPage,    
     HomePage,
     MyApp,
     LoginPage,
 SignupPage,    
     Page1,
     Page2,
-    TodosPage,
     TodoModalPage,
   ],
   providers: [

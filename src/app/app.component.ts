@@ -2,12 +2,12 @@ import { Component, ViewChild } from '@angular/core';
 import { MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
+import { CurrentTodosPage } from '../pages/current-todos/current-todos.page';
 import { HomePage } from '../pages/home/home.page';
 import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
 import { LoginPage } from '../pages/login/login.page';
 import { SignupPage } from '../pages/signup/signup.page';
-import { TodosPage } from '../pages/todos/todos.page';
 
 import { AuthService } from '../services/auth.service';
 import { TodoService } from '../services/todo.service';
@@ -38,7 +38,7 @@ export class MyApp {
 
   loggedInPages: PageInterface[] = [
     { title: 'Home Page', component: HomePage, icon: 'calendar' },
-    { title: 'Todos Page', component: TodosPage, icon: 'calendar' },
+    { title: 'Current Todos Page', component: CurrentTodosPage, icon: 'calendar' },
     { title: 'Logout', component: Page1, icon: 'log-out', logsOut: true }
   ];
 
@@ -81,7 +81,7 @@ export class MyApp {
         if (_user) {
           this.displayUserName = _user.email;
           this.enableMenu(true);
-          this.rootPage = TodosPage;
+          this.rootPage = CurrentTodosPage;
           this.todoService.load(_user.id);
         } else {
           this.displayUserName = 'Not logged in';

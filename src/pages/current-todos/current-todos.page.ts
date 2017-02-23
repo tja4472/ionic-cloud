@@ -15,10 +15,10 @@ import { Todo } from '../../models/todo';
 import { TodoModalPage } from '../todo-modal/todo-modal.page';
 
 @Component({
-  selector: 'todos-page',
-  templateUrl: 'todos.page.html'
+  selector: 'current-todos-page',
+  templateUrl: 'current-todos.page.html'
 })
-export class TodosPage {
+export class CurrentTodosPage {
   todos$: Observable<Todo[]>;
 
   constructor(

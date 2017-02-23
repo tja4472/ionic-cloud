@@ -6,6 +6,9 @@ cordova platform add android
 
 ionic run android --device
 
+a.a@a.com / password
+b.b@b.com / password
+
 Ionic Cloud Documentation
 http://docs.ionic.io/
 
@@ -13,6 +16,8 @@ http://docs.ionic.io/
 - [x] Add cloud
 - [ ] Add CRUD
 - [x] Add auth
+
+C:\VSCode\git-hub-tim\todo
 
 - WebSocket connection to 'wss://api.ionic.io/ionicdb/eb9cf950' failed: Error during WebSocket handshake: Unexpected response code: 502
 - Received an error: [object Event]
