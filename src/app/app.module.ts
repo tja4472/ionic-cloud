@@ -30,14 +30,20 @@ import { CurrentTodoListComponent } from '../components/current-todo-list/curren
 // Add the RxJS Observable operators we need in this app.
 import './rxjs-operators';
 
+import { ControlMessages } from '../components/control-messages/control-messages.component';
+import { Error } from '../components/error/error.component';
+
 import { AuthService } from '../services/auth.service';
 import { TodoService } from '../services/todo.service';
+import { ValidationService } from '../services/validation.service';
 
 @NgModule({
   declarations: [
+    ControlMessages,
     CurrentTodoDetailPage,
     CurrentTodoListComponent,
     CurrentTodosPage,
+    Error,        
     HomePage,
     MyApp,
     Page1,
@@ -63,6 +69,7 @@ import { TodoService } from '../services/todo.service';
   providers: [
     AuthService,
     TodoService,
+    ValidationService,    
     { provide: ErrorHandler, useClass: IonicErrorHandler }]
 })
 export class AppModule { }
