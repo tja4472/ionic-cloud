@@ -9,7 +9,7 @@ const cloudSettings: CloudSettings = {
   },
   'database': {
     'authType': 'authenticated'
-  }  
+  }
 };
 import { CurrentTodoDetailPage } from '../pages/current-todo-detail/current-todo-detail.page';
 import { CurrentTodosPage } from '../pages/current-todos/current-todos.page';
@@ -23,7 +23,7 @@ import { LoginPage } from '../pages/login/login.page';
 import { SignupPage } from '../pages/signup/signup.page';
 
 
-import { TodoListComponent } from '../components/todo-list/todo-list.component';
+import { CurrentTodoListComponent } from '../components/current-todo-list/current-todo-list.component';
 
 // import { MyFirebaseAppConfig } from './my-firebase-app-config';
 
@@ -35,15 +35,15 @@ import { TodoService } from '../services/todo.service';
 
 @NgModule({
   declarations: [
-    CurrentTodoDetailPage,    
-    CurrentTodosPage,    
+    CurrentTodoDetailPage,
+    CurrentTodoListComponent,
+    CurrentTodosPage,
     HomePage,
     MyApp,
     Page1,
     Page2,
     LoginPage,
-SignupPage,    
-    TodoListComponent,
+    SignupPage,
   ],
   imports: [
     IonicModule.forRoot(MyApp),
@@ -51,12 +51,12 @@ SignupPage,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    CurrentTodoDetailPage,    
-    CurrentTodosPage,    
+    CurrentTodoDetailPage,
+    CurrentTodosPage,
     HomePage,
     MyApp,
     LoginPage,
-SignupPage,    
+    SignupPage,
     Page1,
     Page2,
   ],

@@ -8,14 +8,14 @@
 </ion-header>
 
 <ion-content padding>
-    <todo-list 
+    <current-todo-list
         [todos]="todos$ | async" 
         (addItem)="createItem()"
         (toggleCompleteItem)="toggleCompleteItem($event)"      
         (editItem)="editItem($event)"
         (reorderItems)="reorderItems($event)"
         (removeItem)="removeItem($event)"      
-    ></todo-list>
+    ></current-todo-list>
 
  <!-- 
     <p>

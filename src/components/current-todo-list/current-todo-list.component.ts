@@ -13,10 +13,10 @@ export type TodosInput = Todo[];
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
-  selector: 'todo-list',
-  templateUrl: 'todo-list.component.html',
+  selector: 'current-todo-list',
+  templateUrl: 'current-todo-list.component.html',
 })
-export class TodoListComponent {
+export class CurrentTodoListComponent {
   @Input() public todos: TodosInput;
   @Output() public addItem = new EventEmitter();
   @Output() public toggleCompleteItem = new EventEmitter<ToggleCompleteItemOutput>();
