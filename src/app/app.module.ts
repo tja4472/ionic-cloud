@@ -11,6 +11,8 @@ const cloudSettings: CloudSettings = {
     'authType': 'authenticated'
   }
 };
+
+import { CompletedTodosPage } from '../pages/completed-todos/completed-todos.page';
 import { CurrentTodoDetailPage } from '../pages/current-todo-detail/current-todo-detail.page';
 import { CurrentTodosPage } from '../pages/current-todos/current-todos.page';
 import { HomePage } from '../pages/home/home.page';
@@ -41,6 +43,7 @@ import { ValidationService } from '../services/validation.service';
 @NgModule({
   declarations: [
     CompletedTodoListComponent,
+    CompletedTodosPage,
     ControlMessages,
     CurrentTodoDetailPage,
     CurrentTodoListComponent,
@@ -59,6 +62,7 @@ import { ValidationService } from '../services/validation.service';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    CompletedTodosPage,
     CurrentTodoDetailPage,
     CurrentTodosPage,
     HomePage,

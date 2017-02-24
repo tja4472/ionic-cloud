@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
+import { CompletedTodosPage } from '../pages/completed-todos/completed-todos.page';
 import { CurrentTodosPage } from '../pages/current-todos/current-todos.page';
 import { HomePage } from '../pages/home/home.page';
 import { Page1 } from '../pages/page1/page1';
@@ -39,6 +40,7 @@ export class MyApp {
   loggedInPages: PageInterface[] = [
     { title: 'Home Page', component: HomePage, icon: 'calendar' },
     { title: 'Current Todos Page', component: CurrentTodosPage, icon: 'calendar' },
+    { title: 'Completed Todos Page', component: CompletedTodosPage, icon: 'calendar' },    
     { title: 'Logout', component: Page1, icon: 'log-out', logsOut: true }
   ];
 
