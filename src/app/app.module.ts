@@ -37,7 +37,7 @@ import { ControlMessages } from '../components/control-messages/control-messages
 import { Error } from '../components/error/error.component';
 
 import { AuthService } from '../services/auth.service';
-import { TodoService } from '../services/todo.service';
+import { CurrentTodoService } from '../services/current-todo.service';
 import { ValidationService } from '../services/validation.service';
 
 @NgModule({
@@ -74,7 +74,7 @@ import { ValidationService } from '../services/validation.service';
   ],
   providers: [
     AuthService,
-    TodoService,
+    CurrentTodoService,
     ValidationService,    
     { provide: ErrorHandler, useClass: IonicErrorHandler }]
 })

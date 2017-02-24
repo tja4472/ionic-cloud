@@ -9,7 +9,7 @@ import {
 
 import { Observable } from 'rxjs/Observable';
 
-import { TodoService } from '../../services/todo.service';
+import { CurrentTodoService } from '../../services/current-todo.service';
 import { Todo } from '../../models/todo';
 
 import { CurrentTodoDetailPage } from '../current-todo-detail/current-todo-detail.page';
@@ -25,7 +25,7 @@ export class CurrentTodosPage {
    // public db: Database,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
-    private todoService: TodoService,
+    private todoService: CurrentTodoService,
   ) {
     console.log('TodosPage:constructor')
      this.todos$ = this.todoService.todos;

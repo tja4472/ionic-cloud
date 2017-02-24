@@ -20,12 +20,13 @@ import { Todo } from '../models/todo';
 // https://dzone.com/articles/how-to-build-angular-2-apps-using-observable-data-1
 
 @Injectable()
-export class TodoService {
+export class CurrentTodoService {
     private _todos: BehaviorSubject<Todo[]>;
     private dataStore: {  // This is where we will store our data in memory
         todos: Todo[]
     };
 
+private readonly collectionName = 'current_todos';
     /*
     Currently this is a singleton for the app.
     So constructor gets called once.
@@ -129,7 +130,7 @@ export class TodoService {
 
 
         this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
-        this.db.collection('todos')
+        this.db.collection(this.collectionName)
             .order("index", "ascending")
             .findAll({ userId: activeUserId })
             .watch()
@@ -175,19 +176,19 @@ export class TodoService {
             updates.push({ id: itemsToSave[x].id, index: x });
         }
 
-        this.db.collection('todos').update(updates);
+        this.db.collection(this.collectionName).update(updates);
     }
 
     removeItem(todo: Todo) {
         console.log('removeItem>', todo);
-        this.db.collection('todos').remove(todo.id);
+        this.db.collection(this.collectionName).remove(todo.id);
     }
 
     saveItem(todo: Todo) {
         console.log('save>', todo);
         let userId = this.authService.activeUser.value.id;
         todo.userId = userId;
-        this.db.collection('todos').store(toFirebaseTodo(todo));
+        this.db.collection(this.collectionName).store(toFirebaseTodo(todo));
 
         /*
                 if (todo.$key === '') {

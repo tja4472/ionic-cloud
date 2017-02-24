@@ -11,7 +11,7 @@ import { LoginPage } from '../pages/login/login.page';
 import { SignupPage } from '../pages/signup/signup.page';
 
 import { AuthService } from '../services/auth.service';
-import { TodoService } from '../services/todo.service';
+import { CurrentTodoService } from '../services/current-todo.service';
 
 export interface PageInterface {
   title: string;
@@ -58,7 +58,7 @@ export class MyApp {
     private authService: AuthService,
     public menu: MenuController,
     public platform: Platform,
-    private todoService: TodoService,
+    private todoService: CurrentTodoService,
   ) {
     this.initializeApp();
   }
