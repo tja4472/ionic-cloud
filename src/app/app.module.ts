@@ -23,6 +23,7 @@ import { LoginPage } from '../pages/login/login.page';
 import { SignupPage } from '../pages/signup/signup.page';
 
 
+import { CompletedTodoListComponent } from '../components/completed-todo-list/completed-todo-list.component';
 import { CurrentTodoListComponent } from '../components/current-todo-list/current-todo-list.component';
 
 // import { MyFirebaseAppConfig } from './my-firebase-app-config';
@@ -39,6 +40,7 @@ import { ValidationService } from '../services/validation.service';
 
 @NgModule({
   declarations: [
+    CompletedTodoListComponent,
     ControlMessages,
     CurrentTodoDetailPage,
     CurrentTodoListComponent,
