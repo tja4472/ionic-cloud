@@ -87,7 +87,7 @@ export class CurrentTodosPage {
 
       console.log('result.clearCompleted>', result.clearCompleted);
       if (result.clearCompleted) {
-        // this.todoService.clearCompletedItems();
+        this.todoService.clearCompletedItems();
         return;
       }
     });

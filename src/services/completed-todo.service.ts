@@ -89,7 +89,7 @@ export class CompletedTodoService {
     }
 
     saveItem(todo: TodoCompleted) {
-        console.log('save>', todo);
+        console.log('saveItem>', todo);
         let userId = this.authService.activeUser.value.id;
         todo.userId = userId;
         this.db.collection(this.collectionName).store(toFirebaseTodo(todo));

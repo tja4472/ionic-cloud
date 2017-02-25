@@ -7,8 +7,10 @@ import { Database } from '@ionic/cloud-angular';
 import { reorderArray } from 'ionic-angular';
 
 import { AuthService } from '../services/auth.service';
-import { Todo } from '../models/todo';
+import { CompletedTodoService } from '../services/completed-todo.service';
 
+import { Todo } from '../models/todo';
+import { TodoCompleted } from '../models/todo-completed';
 // const FIREBASE_CURRENT_TODOS = '/todo/currentTodos';
 
 // Multiple subscriptions on a FirebaseListObservable #574
@@ -26,7 +28,7 @@ export class CurrentTodoService {
         todos: Todo[]
     };
 
-private readonly collectionName = 'current_todos';
+    private readonly collectionName = 'current_todos';
     /*
     Currently this is a singleton for the app.
     So constructor gets called once.
@@ -36,13 +38,14 @@ private readonly collectionName = 'current_todos';
     constructor(
         public db: Database,
         private authService: AuthService,
+        private completedTodoService: CompletedTodoService,
     ) {
         console.log('TodoService:constructor');
-/*        
-        this.db.status().subscribe((status) => {
-            console.log('db.status:status.type>', status.type);
-        });
-*/
+        /*        
+                this.db.status().subscribe((status) => {
+                    console.log('db.status:status.type>', status.type);
+                });
+        */
         // this.db.connect();
         /*
                 this.authService.activeUser.subscribe((_user) => {
@@ -112,6 +115,25 @@ private readonly collectionName = 'current_todos';
                     err => { console.error(err); }
                     );
         */
+    }
+
+    public clearCompletedItems(): void {
+        let completedItems = this.dataStore.todos.filter(a => a.isComplete);
+        console.log('TodoService:clearCompletedItems>', completedItems);
+
+        completedItems.map(x => {
+            console.log('x>', x);
+
+            let todoCompleted = new TodoCompleted(
+                x.isComplete,
+                x.userId,
+                x.name,
+                x.description,
+            );
+
+            this.completedTodoService.saveItem(todoCompleted);
+            this.removeItem(x);
+        });
     }
 
     // =======

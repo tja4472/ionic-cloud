@@ -11,6 +11,7 @@ import { LoginPage } from '../pages/login/login.page';
 import { SignupPage } from '../pages/signup/signup.page';
 
 import { AuthService } from '../services/auth.service';
+import { CompletedTodoService } from '../services/completed-todo.service';
 import { CurrentTodoService } from '../services/current-todo.service';
 
 export interface PageInterface {
@@ -58,6 +59,7 @@ export class MyApp {
     private authService: AuthService,
     public menu: MenuController,
     public platform: Platform,
+    private completedTodoService: CompletedTodoService,    
     private todoService: CurrentTodoService,
   ) {
     this.initializeApp();
@@ -78,12 +80,14 @@ export class MyApp {
         // See feedly for _user data display.
         // get the user...
         // this.currentUser = _user
+        this.completedTodoService.reset();        
         this.todoService.reset();
         // if user.. show data, else show login
         if (_user) {
           this.displayUserName = _user.email;
           this.enableMenu(true);
           this.rootPage = CurrentTodosPage;
+          this.completedTodoService.load(_user.id);          
           this.todoService.load(_user.id);
         } else {
           this.displayUserName = 'Not logged in';
