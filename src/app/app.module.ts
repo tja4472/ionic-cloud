@@ -35,6 +35,7 @@ import './rxjs-operators';
 
 import { ControlMessages } from '../components/control-messages/control-messages.component';
 import { Error } from '../components/error/error.component';
+import { MyPopoverPage } from '../components/popover/popover.component';
 
 import { AuthService } from '../services/auth.service';
 import { CompletedTodoService } from '../services/completed-todo.service';
@@ -49,9 +50,10 @@ import { ValidationService } from '../services/validation.service';
     CurrentTodoDetailPage,
     CurrentTodoListComponent,
     CurrentTodosPage,
-    Error,        
+    Error,
     HomePage,
     MyApp,
+    MyPopoverPage,
     Page1,
     Page2,
     LoginPage,
@@ -67,17 +69,18 @@ import { ValidationService } from '../services/validation.service';
     CurrentTodoDetailPage,
     CurrentTodosPage,
     HomePage,
-    MyApp,
     LoginPage,
+    MyApp,
+    MyPopoverPage,
     SignupPage,
     Page1,
     Page2,
   ],
   providers: [
     AuthService,
-    CompletedTodoService,    
+    CompletedTodoService,
     CurrentTodoService,
-    ValidationService,    
+    ValidationService,
     { provide: ErrorHandler, useClass: IonicErrorHandler }]
 })
 export class AppModule { }

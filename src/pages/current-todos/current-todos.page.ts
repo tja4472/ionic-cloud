@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import {
   ModalController,
   NavController,
+  PopoverController,
 } from 'ionic-angular';
 
 // import { Database } from '@ionic/cloud-angular';
@@ -13,6 +14,7 @@ import { CurrentTodoService } from '../../services/current-todo.service';
 import { Todo } from '../../models/todo';
 
 import { CurrentTodoDetailPage } from '../current-todo-detail/current-todo-detail.page';
+import { MyPopoverPage, MyPopoverPageResult } from '../../components/popover/popover.component';
 
 @Component({
   selector: 'current-todos-page',
@@ -25,6 +27,7 @@ export class CurrentTodosPage {
    // public db: Database,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
+    public popoverCtrl: PopoverController,    
     private todoService: CurrentTodoService,
   ) {
     console.log('TodosPage:constructor')
@@ -68,6 +71,30 @@ export class CurrentTodosPage {
     });
 
     modal.present();
+  }
+
+  presentPopover(ev) {
+    let popover = this.popoverCtrl.create(MyPopoverPage);
+
+    popover.onDidDismiss((result: MyPopoverPageResult) => {
+      console.log('popover.onDidDismiss>', result);
+
+      if (!!!result) {
+        // no result.
+        console.log('result is null.');
+        return;
+      }
+
+      console.log('result.clearCompleted>', result.clearCompleted);
+      if (result.clearCompleted) {
+        // this.todoService.clearCompletedItems();
+        return;
+      }
+    });
+  
+    popover.present({
+      ev: ev
+    });
   }
 
   reorderItems(indexes: any) {
