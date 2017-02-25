@@ -56,7 +56,6 @@ export class CompletedTodoService {
 
         this._todos = <BehaviorSubject<TodoCompleted[]>>new BehaviorSubject([]);
         this.db.collection(this.collectionName)
-            .order("index", "ascending")
             .findAll({ userId: activeUserId })
             .watch()
             .do(x => console.log('CompletedTodoService:watch>', x))
