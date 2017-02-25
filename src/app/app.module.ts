@@ -37,6 +37,7 @@ import { ControlMessages } from '../components/control-messages/control-messages
 import { Error } from '../components/error/error.component';
 
 import { AuthService } from '../services/auth.service';
+import { CompletedTodoService } from '../services/completed-todo.service';
 import { CurrentTodoService } from '../services/current-todo.service';
 import { ValidationService } from '../services/validation.service';
 
@@ -74,6 +75,7 @@ import { ValidationService } from '../services/validation.service';
   ],
   providers: [
     AuthService,
+    CompletedTodoService,    
     CurrentTodoService,
     ValidationService,    
     { provide: ErrorHandler, useClass: IonicErrorHandler }]

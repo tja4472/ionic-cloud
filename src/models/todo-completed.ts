@@ -1,6 +1,7 @@
 export interface TodoCompleted {
-    $key: string;
+    id: string;
     description?: string;
     name: string;
     isComplete: boolean;
+    userId: string;       
 }
