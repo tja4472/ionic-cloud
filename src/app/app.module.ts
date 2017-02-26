@@ -12,6 +12,7 @@ const cloudSettings: CloudSettings = {
   }
 };
 
+import { CompletedTodoDetailPage } from '../pages/completed-todo-detail/completed-todo-detail.page';
 import { CompletedTodosPage } from '../pages/completed-todos/completed-todos.page';
 import { CurrentTodoDetailPage } from '../pages/current-todo-detail/current-todo-detail.page';
 import { CurrentTodosPage } from '../pages/current-todos/current-todos.page';
@@ -44,6 +45,7 @@ import { ValidationService } from '../services/validation.service';
 
 @NgModule({
   declarations: [
+    CompletedTodoDetailPage,    
     CompletedTodoListComponent,
     CompletedTodosPage,
     ControlMessages,
@@ -65,6 +67,7 @@ import { ValidationService } from '../services/validation.service';
   ],
   bootstrap: [IonicApp],
   entryComponents: [
+    CompletedTodoDetailPage,
     CompletedTodosPage,
     CurrentTodoDetailPage,
     CurrentTodosPage,

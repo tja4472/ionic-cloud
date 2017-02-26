@@ -6,6 +6,7 @@ import { CompletedTodoService } from '../../services/completed-todo.service';
 
 import { TodoCompleted } from '../../models/todo-completed';
 // import { ModalResult, TodoCompletedPage } from '../todo-completed/todo-completed.page';
+import { CompletedTodoDetailPage, ModalResult } from '../completed-todo-detail/completed-todo-detail.page';
 
 @Component({
   selector: 'page-completed-todos',
@@ -36,8 +37,8 @@ export class CompletedTodosPage {
 
   editItem(item: TodoCompleted) {
     console.log('editItem:item>', item);
-    /*    
-        let modal = this.modalCtrl.create(TodoCompletedPage, { todo: item });
+      
+        let modal = this.modalCtrl.create(CompletedTodoDetailPage, { todo: item });
     
         //    modal.onDidDismiss(data => {
         modal.onDidDismiss((modalResult: ModalResult) => {
@@ -60,7 +61,7 @@ export class CompletedTodosPage {
         });
     
         modal.present();
-    */
+  
   }
   /*
     removeItem(item: RemoveItemOutput) {
