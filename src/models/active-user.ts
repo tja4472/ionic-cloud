@@ -1,3 +1,12 @@
+export interface ActiveUser {
+    id: string;
+    email: string;
+    image: string;
+    name?: string;
+    userName: string;     
+}
+
+/*
 export class ActiveUser {
     id: string;
     email: string;
@@ -18,16 +27,5 @@ export class ActiveUser {
         this.userName = userName;
         this.name = name;
     }
-}
-
-
-// make into class with constructor.
-/*
-export interface ActiveUser {
-    id: string;
-    email: string;
-    image: string;
-    name?: string;
-    userName: string;     
 }
 */

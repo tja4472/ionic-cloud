@@ -21,20 +21,23 @@ export interface ModalResult {
 export class CompletedTodoDetailPage {
   public todoForm;
 
-  /*
     private todo: TodoCompleted =
     {
-      $key: '',
+      id: undefined,
+      isComplete: false,
       description: null,
       name: '',
-      isComplete: false
+      userId: '',
     };
-  */
+  
+  /*
   private todo = new TodoCompleted(
     false,
     '',
     '',
   );
+  */
+
   private isEditing: boolean;
 
 

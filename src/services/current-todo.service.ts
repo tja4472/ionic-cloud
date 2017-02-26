@@ -123,13 +123,33 @@ export class CurrentTodoService {
 
         completedItems.map(x => {
             console.log('x>', x);
+            /*
+                private todo: TodoCompleted =
+                {
+                  id: undefined,
+                  isComplete: false,
+                  description: null,
+                  name: '',
+                  userId: '',
+                };
+            */
 
-            let todoCompleted = new TodoCompleted(
-                x.isComplete,
-                x.userId,
-                x.name,
-                x.description,
-            );
+            let todoCompleted: TodoCompleted =
+                {
+                    id: undefined,
+                    isComplete: x.isComplete,
+                    description: x.description,
+                    name: x.name,
+                    userId: x.userId,
+                };
+            /*    
+                        let todoCompleted = new TodoCompleted(
+                            x.isComplete,
+                            x.userId,
+                            x.name,
+                            x.description,
+                        );
+            */
 
             this.completedTodoService.saveItem(todoCompleted);
             this.removeItem(x);

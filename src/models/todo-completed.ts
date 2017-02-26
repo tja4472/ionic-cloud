@@ -1,3 +1,12 @@
+export interface TodoCompleted {
+    id: string;
+    isComplete: boolean;    
+    description?: string;
+    name: string;
+    userId: string;       
+}
+
+/*
 export class TodoCompleted {
     id: string;
     isComplete: boolean;    
@@ -18,14 +27,5 @@ export class TodoCompleted {
         this.userId = userId;
         this.name = name;
     }      
-}
-
-/*
-export interface TodoCompleted {
-    id: string;
-    description?: string;
-    name: string;
-    isComplete: boolean;
-    userId: string;       
 }
 */

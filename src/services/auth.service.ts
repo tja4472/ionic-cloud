@@ -17,7 +17,7 @@ export class AuthService {
 
     constructor(
         private auth: Auth,
-        public db: Database,        
+        public db: Database,
         private user: User) {
     }
 
@@ -27,6 +27,7 @@ export class AuthService {
     doCheckAuth() {
         if (this.auth.isAuthenticated()) {
             this.db.connect();
+            /*
             let authUser = new ActiveUser(
                 this.user.id,
                 this.user.details.email,
@@ -34,15 +35,16 @@ export class AuthService {
                 this.user.details.username,
                 this.user.details.name,
             );
-            /*            
-                        let authUser: ActiveUser = {
-                            id: this.user.id,
-                            email: this.user.details.email,
-                            image: this.user.details.image,
-                            name: this.user.details.name,
-                            userName: this.user.details.username
-                        };
             */
+
+            let authUser: ActiveUser = {
+                id: this.user.id,
+                email: this.user.details.email,
+                image: this.user.details.image,
+                name: this.user.details.name,
+                userName: this.user.details.username
+            };
+
             // this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
             this.activeUser.next(authUser);
         }
@@ -70,6 +72,7 @@ export class AuthService {
                 }"                
                 */
                 // create the user object based on the data retrieved...
+                /*
                 let authUser = new ActiveUser(
                     this.user.id,
                     this.user.details.email,
@@ -77,15 +80,16 @@ export class AuthService {
                     this.user.details.username,
                     this.user.details.name,
                 );
-                /*                
-                                let authUser: ActiveUser = {
-                                    id: this.user.id,
-                                    email: this.user.details.email,
-                                    image: this.user.details.image,
-                                    name: this.user.details.name,
-                                    userName: this.user.details.username
-                                };
                 */
+
+                let authUser: ActiveUser = {
+                    id: this.user.id,
+                    email: this.user.details.email,
+                    image: this.user.details.image,
+                    name: this.user.details.name,
+                    userName: this.user.details.username
+                };
+
                 this.activeUser.next(authUser);
                 // this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
             }, (err) => {
@@ -119,22 +123,22 @@ export class AuthService {
         if (_email.length) {
             let details = { 'email': _email, 'password': _password };
 
-          this.auth.signup(details)
-            .then(() => {
-                return this.doLogin(_email, _password);
-            }, (err: IDetailedError<string[]>) => {
-                console.log(err)
-                for (let e of err.details) {
-                    if (e === 'conflict_email') {
-                        alert('Email already exists.');
-                    } else {
-                        // handle other errors
+            this.auth.signup(details)
+                .then(() => {
+                    return this.doLogin(_email, _password);
+                }, (err: IDetailedError<string[]>) => {
+                    console.log(err)
+                    for (let e of err.details) {
+                        if (e === 'conflict_email') {
+                            alert('Email already exists.');
+                        } else {
+                            // handle other errors
+                        }
                     }
-                }
-            });          
+                });
         }
     }
-    
+
     /**
      * logout and remove the user...
      */
