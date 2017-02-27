@@ -3,9 +3,9 @@ import { NavController, ModalController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 
 import { CompletedTodoService } from '../../services/completed-todo.service';
+import { CurrentTodoService } from '../../services/current-todo.service';
 
 import { TodoCompleted } from '../../models/todo-completed';
-// import { ModalResult, TodoCompletedPage } from '../todo-completed/todo-completed.page';
 import { CompletedTodoDetailPage, ModalResult } from '../completed-todo-detail/completed-todo-detail.page';
 
 @Component({
@@ -17,11 +17,11 @@ export class CompletedTodosPage {
 
   constructor(
     private completedTodoService: CompletedTodoService,
+    private currentTodoService: CurrentTodoService,
     public navCtrl: NavController,
     public modalCtrl: ModalController,
   ) {
     //
-    // this.data$ = todoCompletedService.getData();
     this.data$ = completedTodoService.todos;
   }
 
@@ -31,42 +31,34 @@ export class CompletedTodosPage {
 
   checkItem(item: TodoCompleted) {
     if (!item.isComplete) {
-      // this.todoCompletedService.moveToCurrent(item);
+      this.currentTodoService.moveToCurrent(item);
     }
   }
 
   editItem(item: TodoCompleted) {
     console.log('editItem:item>', item);
-      
-        let modal = this.modalCtrl.create(CompletedTodoDetailPage, { todo: item });
-    
-        //    modal.onDidDismiss(data => {
-        modal.onDidDismiss((modalResult: ModalResult) => {
-          console.log('editItem:onDidDismiss>: modalResult', modalResult);
-    
-          if (modalResult.isCancelled) {
-            return;
-          }
-    
-          if (modalResult.isRemoved) {
-            // this.todoCompletedService.remove(modalResult.todo);
-            return;
-          }
-    
-          if (modalResult.todo.isComplete) {
-            // this.todoCompletedService.save(modalResult.todo);
-          } else {
-            // this.todoCompletedService.moveToCurrent(modalResult.todo);
-          }
-        });
-    
-        modal.present();
-  
+
+    let modal = this.modalCtrl.create(CompletedTodoDetailPage, { todo: item });
+
+    modal.onDidDismiss((modalResult: ModalResult) => {
+      console.log('editItem:onDidDismiss>: modalResult', modalResult);
+
+      if (modalResult.isCancelled) {
+        return;
+      }
+
+      if (modalResult.isRemoved) {
+        this.completedTodoService.removeItem(modalResult.todo);
+        return;
+      }
+
+      if (modalResult.todo.isComplete) {
+        this.completedTodoService.saveItem(modalResult.todo);
+      } else {
+        this.currentTodoService.moveToCurrent(modalResult.todo);
+      }
+    });
+
+    modal.present();
   }
-  /*
-    removeItem(item: RemoveItemOutput) {
-      console.log('removeItem:item>', item);
-      this.todoCompletedService.remove(item);
-    }
-  */
 }

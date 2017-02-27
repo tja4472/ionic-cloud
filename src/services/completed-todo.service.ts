@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject'
 // import { Observable } from 'rxjs/Observable';
 
 import { Database } from '@ionic/cloud-angular';
-import { reorderArray } from 'ionic-angular';
 
 import { AuthService } from '../services/auth.service';
 import { TodoCompleted } from '../models/todo-completed';
@@ -69,7 +68,7 @@ export class CompletedTodoService {
             err => { console.error(err); }
             );
     }
-
+/*
     reorderItems(indexes: any) {
         const itemsToSave = [...this.dataStore.todos];
         reorderArray(itemsToSave, indexes);
@@ -81,7 +80,7 @@ export class CompletedTodoService {
 
         this.db.collection(this.collectionName).update(updates);
     }
-
+*/
     removeItem(todo: TodoCompleted) {
         console.log('removeItem>', todo);
         this.db.collection(this.collectionName).remove(todo.id);
@@ -103,11 +102,12 @@ export class CompletedTodoService {
                 }
         */
     }
-
+/*
     public toggleCompleteItem(todo: TodoCompleted): void {
         todo.isComplete = !todo.isComplete;
         this.saveItem(todo);
     }
+*/    
 /*
     private dummyData(): Observable<Todo[]> {
         let data: Todo[] =

@@ -156,6 +156,21 @@ export class CurrentTodoService {
         });
     }
 
+    public moveToCurrent(item: TodoCompleted): void {
+        console.log('moveToCurrent>', item);
+        let todo: Todo = {
+            id: undefined,
+            description: item.description,
+            name: item.name,
+            isComplete: item.isComplete,
+            index: 0,
+            userId: item.userId,
+        };
+
+        this.saveItem(todo);
+        this.completedTodoService.removeItem(item);
+    }
+
     // =======
     get todos() {
         return this._todos.asObservable();
