@@ -13,6 +13,11 @@ b.b@b.com / password
 Ionic Cloud Documentation
 http://docs.ionic.io/
 
+
+ionic package build android --profile first
+
+need to login
+
 - [ ] Add list page
 - [x] Add cloud
 - [ ] Add CRUD
