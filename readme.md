@@ -25,6 +25,8 @@ need to login
 
 C:\VSCode\git-hub-tim\todo
 
+https://forum.ionicframework.com/t/ionicdb-invalid-handshake/80297
+
 - WebSocket connection to 'wss://api.ionic.io/ionicdb/eb9cf950' failed: Error during WebSocket handshake: Unexpected response code: 502
 - Received an error: [object Event]
 - Connection Failed:  Unexpected disconnect with error code 1006.
