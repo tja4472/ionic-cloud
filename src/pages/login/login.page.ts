@@ -12,9 +12,8 @@ import { AuthService } from '../../services/auth.service'
   templateUrl: 'login.page.html'
 })
 export class LoginPage {
-  // login: { username?: string, password?: string } = {};
-  submitted = false;
-  public loginForm: FormGroup; 
+  public submitted = false;
+  public loginForm: FormGroup;
 
   loginState$: any;
 
@@ -22,46 +21,49 @@ export class LoginPage {
     private formBuilder: FormBuilder,
     private nav: NavController,
     private authService: AuthService,
-    ) {
+  ) {
     //
     console.log('LoginPage');
-     this.loginForm = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-    });   
+    });
+    /*
+        // http://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/
+        this.loginForm.valueChanges
+          .map((value) => {
+            console.log("loginForm value>", value)
+            return value;
+          })
+          .filter((value) => this.loginForm.valid)
+          .subscribe(valid => console.log("loginForm value updates to", valid));
+    */
   }
 
-  onLogin(form: FormGroup) {
+  onLogin() {
     this.submitted = true;
+    console.log('this.loginForm.value>', this.loginForm.value);
 
-    if (form.valid) {
-              console.log('EmailAuthenticationAction>', form.value.username);
-              this.authService.doLogin(form.value.username, form.value.password);
-/*        
-      this.store.dispatch(
-        this.loginActions.emailAuthentication(
-          this.login.username,
-          this.login.password));
-*/          
+    if (this.loginForm.valid) {
+      this.authService.doLogin(this.loginForm.value.username, this.loginForm.value.password);
     }
   }
 
-
   onSignup() {
-      console.log('onSignup');
-      this.nav.push(SignupPage);
+    console.log('onSignup');
+    this.nav.push(SignupPage);
   }
 
   signInAnonymously() {
-      console.log('signInAnonymously');
-   // this.store.dispatch(
-   //   new loginActions.AnonymousAuthenticationAction());
+    console.log('signInAnonymously');
+    // this.store.dispatch(
+    //   new loginActions.AnonymousAuthenticationAction());
   }
 
   signInWithGoogle() {
-      console.log('signInWithGoogle');
-      
-   // this.store.dispatch(
-   //   new loginActions.GoogleAuthenticationAction());
+    console.log('signInWithGoogle');
+
+    // this.store.dispatch(
+    //   new loginActions.GoogleAuthenticationAction());
   }
 }
