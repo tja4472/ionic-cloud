@@ -39,10 +39,7 @@
 -->
       <ion-row responsive-sm>
         <ion-col>
-          <!--
-            <button (click)="onLogin(loginForm)" type="submit" primary block>Login</button>
--->
-          <button ion-button (click)="onSignup(signupForm)" color="primary" block>Signup</button>
+          <button ion-button (click)="onSignup()" color="primary" block [disabled]="!signupForm.valid">Signup</button>
         </ion-col>
       </ion-row>
     </form>

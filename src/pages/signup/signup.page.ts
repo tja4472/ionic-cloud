@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
-import { NavController } from 'ionic-angular';
-// import { SignupPage } from '../signup/signup.page';
+// import { NavController } from 'ionic-angular';
 
 import { AuthService } from '../../services/auth.service'
 
@@ -12,59 +11,30 @@ import { AuthService } from '../../services/auth.service'
   templateUrl: 'signup.page.html'
 })
 export class SignupPage {
-  submitted = false;
-  public signupForm: FormGroup; 
+  public submitted = false;
+  public signupForm: FormGroup;
 
   loginState$: any;
 
   constructor(
     private formBuilder: FormBuilder,
-    private nav: NavController,
+    // private nav: NavController,
     private authService: AuthService,
-    ) {
+  ) {
     //
     console.log('SignupPage');
-     this.signupForm = this.formBuilder.group({
+    this.signupForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', Validators.required],
-    });   
+    });
   }
 
-  onLogin(form: FormGroup) {
+  onSignup() {
+    console.log('onSignup:this.signupForm.value>', this.signupForm.value);
     this.submitted = true;
 
-    if (form.valid) {
-              console.log('EmailAuthenticationAction>', form.value.username);
-              this.authService.doLogin(form.value.username, form.value.password);
-/*        
-      this.store.dispatch(
-        this.loginActions.emailAuthentication(
-          this.login.username,
-          this.login.password));
-*/          
+    if (this.signupForm.valid) {
+      this.authService.doSignup(this.signupForm.value.username, this.signupForm.value.password);
     }
-  }
-
-
-  onSignup(form: FormGroup) {
-      console.log('onSignup');
-    this.submitted = true;
-    if (form.valid) {
-              console.log('EmailAuthenticationAction>', form.value.username);
-              this.authService.doSignup(form.value.username, form.value.password);
-    }
-  }
-
-  signInAnonymously() {
-      console.log('signInAnonymously');
-   // this.store.dispatch(
-   //   new loginActions.AnonymousAuthenticationAction());
-  }
-
-  signInWithGoogle() {
-      console.log('signInWithGoogle');
-      
-   // this.store.dispatch(
-   //   new loginActions.GoogleAuthenticationAction());
   }
 }
