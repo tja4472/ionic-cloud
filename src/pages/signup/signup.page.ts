@@ -1,13 +1,11 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-
-// import { NavController } from 'ionic-angular';
 
 import { AuthService } from '../../services/auth.service'
 
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'page-signup',  
   templateUrl: 'signup.page.html'
 })
 export class SignupPage {
@@ -18,14 +16,13 @@ export class SignupPage {
 
   constructor(
     private formBuilder: FormBuilder,
-    // private nav: NavController,
     private authService: AuthService,
   ) {
     //
     console.log('SignupPage');
     this.signupForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
   }
 

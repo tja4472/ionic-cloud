@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 
 import { NavController } from 'ionic-angular';
@@ -8,7 +8,7 @@ import { AuthService } from '../../services/auth.service'
 
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'page-login',  
   templateUrl: 'login.page.html'
 })
 export class LoginPage {
@@ -26,7 +26,7 @@ export class LoginPage {
     console.log('LoginPage');
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
+      password: ['', [Validators.required, Validators.minLength(8)]],
     });
     /*
         // http://blog.angular-university.io/introduction-to-angular-2-forms-template-driven-vs-model-driven/
@@ -44,7 +44,7 @@ export class LoginPage {
     this.submitted = true;
     console.log('this.loginForm.value>', this.loginForm.value);
 
-    if (this.loginForm.valid) {
+    if (this.loginForm.dirty && this.loginForm.valid) {
       this.authService.doLogin(this.loginForm.value.username, this.loginForm.value.password);
     }
   }
