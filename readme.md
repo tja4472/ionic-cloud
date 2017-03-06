@@ -16,15 +16,6 @@ http://docs.ionic.io/
 
 ionic package build android --profile first
 
-need to login
-
-- [ ] Add list page
-- [x] Add cloud
-- [ ] Add CRUD
-- [x] Add auth
-
-C:\VSCode\git-hub-tim\todo
-
 https://forum.ionicframework.com/t/ionicdb-invalid-handshake/80297
 
 - WebSocket connection to 'wss://api.ionic.io/ionicdb/eb9cf950' failed: Error during WebSocket handshake: Unexpected response code: 502
