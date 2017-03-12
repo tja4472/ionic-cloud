@@ -1,10 +1,10 @@
 <ion-grid>
 	<ion-row center *ngFor="let item of data">
-		<ion-col style="flex:none; width:auto">
+		<ion-col col-auto>
 			<ion-checkbox [checked]="item.isComplete" (ionChange)="checkboxChange($event, item)">
 			</ion-checkbox>
 		</ion-col>
-		<ion-col width-90>
+		<ion-col>
 			<ion-item (click)="editItem.emit(item)">
 				<h3 [style.text-decoration]="item.isComplete ? 'line-through': ''">{{item.name}}</h3>
 				<p>{{item.description}}</p>
