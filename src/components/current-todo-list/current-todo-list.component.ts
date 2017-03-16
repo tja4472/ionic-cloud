@@ -26,4 +26,8 @@ export class CurrentTodoListComponent {
 
   constructor() {
   }
+
+  checkboxChange(checkbox: any, item: any) {
+    console.log('checkboxChange');
+  }  
 }

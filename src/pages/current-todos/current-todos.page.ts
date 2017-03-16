@@ -17,7 +17,7 @@ import { CurrentTodoDetailPage } from '../current-todo-detail/current-todo-detai
 import { MyPopoverPage, MyPopoverPageResult } from '../../components/popover/popover.component';
 
 @Component({
-  selector: 'current-todos-page',
+  selector: 'page-current-todos',
   templateUrl: 'current-todos.page.html'
 })
 export class CurrentTodosPage {
@@ -107,8 +107,8 @@ export class CurrentTodosPage {
   }
 
   removeItem(item: Todo) {
-    console.log('removeItem:item>', item);
-    this.todoService.removeItem(item);
+    console.log('CurrentTodosPage:removeItem:item>', item);
+    // this.todoService.removeItem(item);
   }
 
   ionViewDidLeave() {
