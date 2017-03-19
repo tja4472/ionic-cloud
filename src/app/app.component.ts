@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { MenuController, Nav, Platform } from 'ionic-angular';
+import { LoadingController, MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { CompletedTodosPage } from '../pages/completed-todos/completed-todos.page';
@@ -14,10 +14,7 @@ import { AuthService } from '../services/auth.service';
 import { CompletedTodoService } from '../services/completed-todo.service';
 import { CurrentTodoService } from '../services/current-todo.service';
 
-import { ActiveUser } from '../models/active-user';
 import { Database } from '@ionic/cloud-angular';
-
-import { Observable } from 'rxjs/Observable';
 
 export interface PageInterface {
   title: string;
@@ -66,6 +63,7 @@ export class MyApp {
     private authService: AuthService,
     public db: Database,
     public menu: MenuController,
+    public loadingController: LoadingController,
     public platform: Platform,
     private completedTodoService: CompletedTodoService,
     private todoService: CurrentTodoService,
@@ -76,6 +74,10 @@ export class MyApp {
 
   initializeApp() {
     console.log(`%s:initializeApp`, this.CLASS_NAME);
+    const loader = this.loadingController.create({
+      content: "Please wait..."
+      //duration: 3000
+    });
 
     this.platform.ready().then(() => {
       console.log(`%s:platform.ready()`, this.CLASS_NAME);
@@ -90,7 +92,7 @@ export class MyApp {
       this.authService.activeUser
         .filter(activeUser => activeUser === null)
         .subscribe(() => {
-          console.log(`%s: -- authService.activeUser subscribe(A) --`, this.CLASS_NAME);           
+          console.log(`%s: -- authService.activeUser subscribe(A) --`, this.CLASS_NAME);
           console.log(`%s:activeUser === null`, this.CLASS_NAME);
           this.displayUserName = 'Not logged in';
           this.enableMenu(false);
@@ -101,24 +103,28 @@ export class MyApp {
       this.authService.activeUser
         .filter(activeUser => activeUser !== null)
         .subscribe(activeUser => {
-          console.log(`%s: -- authService.activeUser subscribe(B) --`, this.CLASS_NAME);           
+          console.log(`%s: -- authService.activeUser subscribe(B) --`, this.CLASS_NAME);
           console.log(`%s:activeUser !== null`, this.CLASS_NAME);
           this.displayUserName = activeUser.email;
           this.enableMenu(true);
           this.rootPage = CurrentTodosPage;
 
-          console.log(`%s: -- Initial db.connect()`, this.CLASS_NAME);          
+          console.log(`%s: -- Initial db.connect()`, this.CLASS_NAME);
           this.db.connect();
         });
 
+
+
       this.db.status()
         .subscribe(status => {
-          console.log(`%s: -- db.status() subscribe --`, this.CLASS_NAME); 
-          console.log(`%s:status.type>`, this.CLASS_NAME, status.type); 
+          console.log(`%s: -- db.status() subscribe --`, this.CLASS_NAME);
+          console.log(`%s:status.type>`, this.CLASS_NAME, status.type);
 
           if (this.authService.activeUser.value === null) {
             return;
           }
+
+          loader.present();
 
           const activeUserId = this.authService.activeUser.value.id;
           console.log('MyApp~DB activeUserId>', activeUserId);
@@ -137,6 +143,8 @@ export class MyApp {
 
             this.completedTodoService.load(activeUserId);
             this.todoService.load(activeUserId);
+
+            loader.dismiss();
           }
         });
 
