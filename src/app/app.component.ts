@@ -14,6 +14,11 @@ import { AuthService } from '../services/auth.service';
 import { CompletedTodoService } from '../services/completed-todo.service';
 import { CurrentTodoService } from '../services/current-todo.service';
 
+import { ActiveUser } from '../models/active-user';
+import { Database } from '@ionic/cloud-angular';
+
+import { Observable } from 'rxjs/Observable';
+
 export interface PageInterface {
   title: string;
   component: any;
@@ -29,6 +34,8 @@ export interface PageInterface {
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
+  private readonly CLASS_NAME = 'MyApp';
+
   public displayUserName: string;
   // List of pages that can be navigated to from the left menu
   // the left menu only works after login
@@ -41,13 +48,13 @@ export class MyApp {
   loggedInPages: PageInterface[] = [
     { title: 'Home Page', component: HomePage, icon: 'calendar' },
     { title: 'Current Todos Page', component: CurrentTodosPage, icon: 'calendar' },
-    { title: 'Completed Todos Page', component: CompletedTodosPage, icon: 'calendar' },    
+    { title: 'Completed Todos Page', component: CompletedTodosPage, icon: 'calendar' },
     { title: 'Logout', component: Page1, icon: 'log-out', logsOut: true }
   ];
 
   loggedOutPages: PageInterface[] = [
     { title: 'Login', component: LoginPage, icon: 'log-in' },
-    { title: 'Signup', component: SignupPage, icon: 'log-in' },    
+    { title: 'Signup', component: SignupPage, icon: 'log-in' },
   ];
 
   // currentUser;
@@ -57,55 +64,125 @@ export class MyApp {
 
   constructor(
     private authService: AuthService,
+    public db: Database,
     public menu: MenuController,
     public platform: Platform,
-    private completedTodoService: CompletedTodoService,    
+    private completedTodoService: CompletedTodoService,
     private todoService: CurrentTodoService,
   ) {
+    console.log(`%s:constructor`, this.CLASS_NAME);
     this.initializeApp();
   }
 
   initializeApp() {
+    console.log(`%s:initializeApp`, this.CLASS_NAME);
+
     this.platform.ready().then(() => {
-      console.log('platform.ready');
+      console.log(`%s:platform.ready()`, this.CLASS_NAME);
+      // console.log('Splashscreen.hide');
+      // Splashscreen.hide();
+
+      // check to see if there is already a user... Ionic saves it for you,
+      // this will automatically log the user in when you restart the application
+      this.authService.doCheckAuth();
+
+      // Logged out.
+      this.authService.activeUser
+        .filter(activeUser => activeUser === null)
+        .subscribe(() => {
+          console.log(`%s: -- authService.activeUser subscribe(A) --`, this.CLASS_NAME);           
+          console.log(`%s:activeUser === null`, this.CLASS_NAME);
+          this.displayUserName = 'Not logged in';
+          this.enableMenu(false);
+          this.rootPage = LoginPage;
+        });
+
+      // Logged in.
+      this.authService.activeUser
+        .filter(activeUser => activeUser !== null)
+        .subscribe(activeUser => {
+          console.log(`%s: -- authService.activeUser subscribe(B) --`, this.CLASS_NAME);           
+          console.log(`%s:activeUser !== null`, this.CLASS_NAME);
+          this.displayUserName = activeUser.email;
+          this.enableMenu(true);
+          this.rootPage = CurrentTodosPage;
+
+          console.log(`%s: -- Initial db.connect()`, this.CLASS_NAME);          
+          this.db.connect();
+        });
+
+      this.db.status()
+        .subscribe(status => {
+          console.log(`%s: -- db.status() subscribe --`, this.CLASS_NAME); 
+          console.log(`%s:status.type>`, this.CLASS_NAME, status.type); 
+
+          if (this.authService.activeUser.value === null) {
+            return;
+          }
+
+          const activeUserId = this.authService.activeUser.value.id;
+          console.log('MyApp~DB activeUserId>', activeUserId);
+
+          if (status.type == 'reconnecting' || status.type == 'disconnected') {
+            console.log('MyApp~-- Trying to reconnect DB --');
+
+            setTimeout(() => {
+              console.log('MyApp~-- Retry DB connect --');
+              this.db.connect();
+            }, 4000);
+          }
+
+          if (status.type === 'connected') {
+            console.log('MyApp~-- connected --')
+
+            this.completedTodoService.load(activeUserId);
+            this.todoService.load(activeUserId);
+          }
+        });
+
+
+
+
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       // StatusBar.styleDefault();
       //     Splashscreen.hide();
-
-      // subscribe to the activeUser to see if we should go to the LoginPage
-      // or directly to the HomePage since we have a user
-      this.authService.activeUser.subscribe((_user) => {
-        console.log('activeUser.subscribe>', _user);
-        // See feedly for _user data display.
-        // get the user...
-        // this.currentUser = _user
-        this.completedTodoService.reset();        
-        this.todoService.reset();
-        // if user.. show data, else show login
-        if (_user) {
-          this.displayUserName = _user.email;
-          this.enableMenu(true);
-          this.rootPage = CurrentTodosPage;
-          this.completedTodoService.load(_user.id);          
-          this.todoService.load(_user.id);
-        } else {
-          this.displayUserName = 'Not logged in';
-          this.enableMenu(false);
-          this.rootPage = LoginPage;
-        }
-
-        this.nav.setRoot(this.rootPage)
-          .then(() => {
-            console.log('Splashscreen.hide');
-            Splashscreen.hide();
-          });
-      });
+      /*
+            // subscribe to the activeUser to see if we should go to the LoginPage
+            // or directly to the HomePage since we have a user
+            this.authService.activeUser.subscribe((_user) => {
+              console.log('activeUser.subscribe>', _user);
+              // See feedly for _user data display.
+              // get the user...
+              // this.currentUser = _user
+              // this.completedTodoService.reset();
+              // this.todoService.reset();
+              // if user.. show data, else show login
+              if (_user) {
+                this.displayUserName = _user.email;
+                this.enableMenu(true);
+                this.rootPage = CurrentTodosPage;
+                // this.completedTodoService.load(_user.id);
+                // this.todoService.load(_user.id);
+              } else {
+                this.displayUserName = 'Not logged in';
+                this.enableMenu(false);
+                this.rootPage = LoginPage;
+              }
+      
+              this.nav.setRoot(this.rootPage)
+                .then(() => {
+                  console.log('Splashscreen.hide');
+                  Splashscreen.hide();
+                });
+            });
+      */
     });
-
-    // check to see if there is already a user... Ionic saves it for you,
-    // this will automatically log the user in when you restart the application
-    this.authService.doCheckAuth();
+    /*
+        // check to see if there is already a user... Ionic saves it for you,
+        // this will automatically log the user in when you restart the application
+        this.authService.doCheckAuth();
+    */
   }
 
   openPage(page) {
@@ -121,7 +198,7 @@ export class MyApp {
     }
   }
 
-  enableMenu(loggedIn: boolean) {
+  enableMenu(loggedIn: boolean): void {
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }

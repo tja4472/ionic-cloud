@@ -24,14 +24,14 @@ export class CurrentTodosPage {
   todos$: Observable<Todo[]>;
 
   constructor(
-   // public db: Database,
+    // public db: Database,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
-    public popoverCtrl: PopoverController,    
+    public popoverCtrl: PopoverController,
     private todoService: CurrentTodoService,
   ) {
-    console.log('TodosPage:constructor')
-     this.todos$ = this.todoService.todos;
+    console.log('CurrentTodosPage:constructor')
+    this.todos$ = this.todoService.todos;
   }
 
   createItem() {
@@ -91,7 +91,7 @@ export class CurrentTodosPage {
         return;
       }
     });
-  
+
     popover.present({
       ev: ev
     });
@@ -112,6 +112,6 @@ export class CurrentTodosPage {
   }
 
   ionViewDidLeave() {
-    console.log('TodosPage:ionViewDidLeave');    
+    console.log('CurrentTodosPage:ionViewDidLeave');
   }
 }   

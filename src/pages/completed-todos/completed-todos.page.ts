@@ -21,7 +21,7 @@ export class CompletedTodosPage {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
   ) {
-    //
+    console.log('CompletedTodosPage:constructor')
     this.data$ = completedTodoService.todos;
   }
 
@@ -60,5 +60,9 @@ export class CompletedTodosPage {
     });
 
     modal.present();
+  }
+
+  ionViewDidLeave() {
+    console.log('CompletedTodosPage:ionViewDidLeave');
   }
 }

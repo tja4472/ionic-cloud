@@ -36,7 +36,9 @@ export class CompletedTodoService {
         public db: Database,
         private authService: AuthService,
     ) {
-        console.log('CompletedTodoService:constructor');
+        console.log('CompletedTodoService~constructor');
+        this.dataStore = { todos: [] };
+        this._todos = <BehaviorSubject<TodoCompleted[]>>new BehaviorSubject([]);
     }
 
     // =======
@@ -53,7 +55,7 @@ export class CompletedTodoService {
     ): void {
         console.log('CompletedTodoService:load:activeUserId>', activeUserId);
 
-        this._todos = <BehaviorSubject<TodoCompleted[]>>new BehaviorSubject([]);
+        // this._todos = <BehaviorSubject<TodoCompleted[]>>new BehaviorSubject([]);
         this.db.collection(this.collectionName)
             .findAll({ userId: activeUserId })
             .watch()

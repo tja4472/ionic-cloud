@@ -40,7 +40,9 @@ export class CurrentTodoService {
         private authService: AuthService,
         private completedTodoService: CompletedTodoService,
     ) {
-        console.log('TodoService:constructor');
+        console.log('CurrentTodoService~constructor');
+        this.dataStore = { todos: [] };
+        this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);             
         /*        
                 this.db.status().subscribe((status) => {
                     console.log('db.status:status.type>', status.type);
@@ -177,7 +179,9 @@ export class CurrentTodoService {
     }
 
     public reset(): void {
+        console.log('CurrentTodoService#reset');        
         this.dataStore = { todos: [] };
+        this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);        
     }
 
     public load(
@@ -186,7 +190,7 @@ export class CurrentTodoService {
         console.log('TodoService:load:activeUserId>', activeUserId);
 
 
-        this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
+        // this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
         this.db.collection(this.collectionName)
             .order("index", "ascending")
             .findAll({ userId: activeUserId })

@@ -23,7 +23,7 @@ export class LoginPage {
     private authService: AuthService,
   ) {
     //
-    console.log('LoginPage');
+    console.log('LoginPage:constructor');
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -66,4 +66,8 @@ export class LoginPage {
     // this.store.dispatch(
     //   new loginActions.GoogleAuthenticationAction());
   }
+
+  ionViewDidLeave() {
+    console.log('LoginPage:ionViewDidLeave');    
+  }  
 }

@@ -25,8 +25,9 @@ export class AuthService {
      * here we check to see if ionic saved a user for us
      */
     doCheckAuth() {
+        console.log('AuthService~doCheckAuth()');
         if (this.auth.isAuthenticated()) {
-            this.db.connect();
+            // this.db.connect();
             /*
             let authUser = new ActiveUser(
                 this.user.id,
@@ -61,7 +62,7 @@ export class AuthService {
             this.auth.login('basic', details).then((_result) => {
                 let aa = Object.assign({}, this.user.details, { id: this.user.id });
                 console.log('aa>', aa)
-                this.db.connect();
+                // this.db.connect();
                 /*
                 "{
                     "image":"https://s3.amazonaws.com/ionic-api-auth/users-default-avatar@2x.png",
