@@ -23,6 +23,8 @@ import { TodoCompleted } from '../models/todo-completed';
 
 @Injectable()
 export class CurrentTodoService {
+    private readonly CLASS_NAME = 'CurrentTodoService';
+
     private _todos: BehaviorSubject<Todo[]>;
     private dataStore: {  // This is where we will store our data in memory
         todos: Todo[]
@@ -40,9 +42,9 @@ export class CurrentTodoService {
         private authService: AuthService,
         private completedTodoService: CompletedTodoService,
     ) {
-        console.log('CurrentTodoService~constructor');
+        console.log(`%s:constructor`, this.CLASS_NAME);
         this.dataStore = { todos: [] };
-        this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);             
+        this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
         /*        
                 this.db.status().subscribe((status) => {
                     console.log('db.status:status.type>', status.type);
@@ -179,9 +181,9 @@ export class CurrentTodoService {
     }
 
     public reset(): void {
-        console.log('CurrentTodoService#reset');        
+        console.log('CurrentTodoService#reset');
         this.dataStore = { todos: [] };
-        this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);        
+        this._todos = <BehaviorSubject<Todo[]>>new BehaviorSubject([]);
     }
 
     public load(

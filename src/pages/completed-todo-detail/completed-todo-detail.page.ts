@@ -19,17 +19,19 @@ export interface ModalResult {
   templateUrl: 'completed-todo-detail.page.html'
 })
 export class CompletedTodoDetailPage {
+  private readonly CLASS_NAME = 'CompletedTodoDetailPage';
+
   public todoForm;
 
-    private todo: TodoCompleted =
-    {
-      id: undefined,
-      isComplete: false,
-      description: null,
-      name: '',
-      userId: '',
-    };
-  
+  private todo: TodoCompleted =
+  {
+    id: undefined,
+    isComplete: false,
+    description: null,
+    name: '',
+    userId: '',
+  };
+
   /*
   private todo = new TodoCompleted(
     false,
@@ -46,6 +48,7 @@ export class CompletedTodoDetailPage {
     params: NavParams,
     public viewController: ViewController
   ) {
+    console.log(`%s:constructor`, this.CLASS_NAME);
     console.log('params:get>', params.get('todo'));
 
     let paramTodo: TodoCompleted = params.get('todo');
@@ -101,21 +104,21 @@ export class CompletedTodoDetailPage {
 
     console.log('this.todoForm.value>', this.todoForm.value);
     console.log('this.todo>', this.todo);
-/*
-    // Get error here with private todo when using popover.
-    // Hence local.
-    let localTodo: TodoCompleted = Object.assign(this.todo);
-    localTodo.description = this.todoForm.value.description;
-    localTodo.isComplete = this.todoForm.value.isComplete;
-    localTodo.name = this.todoForm.value.name;
-    console.log('localTodo>', localTodo);
-
-    let modalResult: ModalResult = {
-      isRemoved: false,
-      isCancelled: false,
-      todo: localTodo,
-    };
-*/
+    /*
+        // Get error here with private todo when using popover.
+        // Hence local.
+        let localTodo: TodoCompleted = Object.assign(this.todo);
+        localTodo.description = this.todoForm.value.description;
+        localTodo.isComplete = this.todoForm.value.isComplete;
+        localTodo.name = this.todoForm.value.name;
+        console.log('localTodo>', localTodo);
+    
+        let modalResult: ModalResult = {
+          isRemoved: false,
+          isCancelled: false,
+          todo: localTodo,
+        };
+    */
     // No longer seems an issue.
     this.todo.description = this.todoForm.value.description;
     this.todo.isComplete = this.todoForm.value.isComplete;

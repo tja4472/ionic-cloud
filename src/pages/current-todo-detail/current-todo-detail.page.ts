@@ -9,6 +9,8 @@ import { Validators, FormBuilder, FormGroup } from '@angular/forms';
     templateUrl: 'current-todo-detail.page.html',
 })
 export class CurrentTodoDetailPage {
+    private readonly CLASS_NAME = 'CurrentTodoDetailPage';
+
     public todoForm: FormGroup;
 
     private formResult: Todo =
@@ -28,6 +30,7 @@ export class CurrentTodoDetailPage {
         params: NavParams,
         public viewController: ViewController
     ) {
+        console.log(`%s:constructor`, this.CLASS_NAME);
         console.log('params:get>', params.get('todo'));
 
         let paramTodo: Todo = params.get('todo');
@@ -56,11 +59,11 @@ export class CurrentTodoDetailPage {
         if (!this.todoForm.valid) {
             return;
         }
-/*
-    if (this.userForm.dirty && this.userForm.valid) {
-      alert(`Name: ${this.userForm.value.name} Email: ${this.userForm.value.email}`);
-    }
-*/
+        /*
+            if (this.userForm.dirty && this.userForm.valid) {
+              alert(`Name: ${this.userForm.value.name} Email: ${this.userForm.value.email}`);
+            }
+        */
 
         // if(this.todoForm.touched)
         console.log(this.todoForm.value);

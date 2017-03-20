@@ -13,6 +13,8 @@ import { CompletedTodoDetailPage, ModalResult } from '../completed-todo-detail/c
   templateUrl: 'completed-todos.page.html'
 })
 export class CompletedTodosPage {
+  private readonly CLASS_NAME = 'CompletedTodosPage';
+
   data$: Observable<TodoCompleted[]>;
 
   constructor(
@@ -21,7 +23,7 @@ export class CompletedTodosPage {
     public navCtrl: NavController,
     public modalCtrl: ModalController,
   ) {
-    console.log('CompletedTodosPage:constructor')
+    console.log(`%s:constructor`, this.CLASS_NAME);
     this.data$ = completedTodoService.todos;
   }
 

@@ -7,17 +7,23 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'page2.html'
 })
 export class Page2 {
+  private readonly CLASS_NAME = 'Page2';
+
   selectedItem: any;
   icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
+  items: Array<{ title: string, note: string, icon: string }>;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams
+  ) {
+    console.log(`%s:constructor`, this.CLASS_NAME);
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 
     // Let's populate this page with some filler content for funzies
     this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
+      'american-football', 'boat', 'bluetooth', 'build'];
 
     this.items = [];
     for (let i = 1; i < 11; i++) {

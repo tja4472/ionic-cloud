@@ -21,6 +21,7 @@ import { MyPopoverPage, MyPopoverPageResult } from '../../components/popover/pop
   templateUrl: 'current-todos.page.html'
 })
 export class CurrentTodosPage {
+    private readonly CLASS_NAME = 'CurrentTodosPage';
   todos$: Observable<Todo[]>;
 
   constructor(
@@ -30,7 +31,7 @@ export class CurrentTodosPage {
     public popoverCtrl: PopoverController,
     private todoService: CurrentTodoService,
   ) {
-    console.log('CurrentTodosPage:constructor')
+    console.log(`%s:constructor`, this.CLASS_NAME);
     this.todos$ = this.todoService.todos;
   }
 

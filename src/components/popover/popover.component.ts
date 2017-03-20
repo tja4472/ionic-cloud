@@ -16,7 +16,13 @@ export interface MyPopoverPageResult {
   `
 })
 export class MyPopoverPage {
-  constructor(public viewCtrl: ViewController) {}
+    private readonly CLASS_NAME = 'MyPopoverPage';
+
+  constructor(
+    public viewCtrl: ViewController
+    ) {
+      console.log(`%s:constructor`, this.CLASS_NAME);    
+    }
 
   clearCompleted() {
     let result: MyPopoverPageResult = {

@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject'
-import 'rxjs/add/operator/map';
 
-import { Auth, Database, User, IDetailedError } from '@ionic/cloud-angular';
+import { Auth, User, IDetailedError } from '@ionic/cloud-angular';
 
 import { ActiveUser } from '../models/active-user';
 
@@ -10,6 +9,7 @@ import { ActiveUser } from '../models/active-user';
 
 @Injectable()
 export class AuthService {
+    private readonly CLASS_NAME = 'AuthService';
     //
     // this will hold the user object when we have one, we can subscribe
     // to changes of this object to determine of we are logged in or not
@@ -17,27 +17,18 @@ export class AuthService {
 
     constructor(
         private auth: Auth,
-        public db: Database,
-        private user: User) {
+        private user: User
+    ) {
+        console.log(`%s:constructor`, this.CLASS_NAME);
     }
 
     /**
      * here we check to see if ionic saved a user for us
      */
     doCheckAuth() {
-        console.log('AuthService~doCheckAuth()');
-        if (this.auth.isAuthenticated()) {
-            // this.db.connect();
-            /*
-            let authUser = new ActiveUser(
-                this.user.id,
-                this.user.details.email,
-                this.user.details.image,
-                this.user.details.username,
-                this.user.details.name,
-            );
-            */
+        console.log('%s:doCheckAuth()', this.CLASS_NAME);
 
+        if (this.auth.isAuthenticated()) {
             let authUser: ActiveUser = {
                 id: this.user.id,
                 email: this.user.details.email,
@@ -46,7 +37,6 @@ export class AuthService {
                 userName: this.user.details.username
             };
 
-            // this.activeUser.next(Object.assign({}, this.user.details, { id: this.user.id }))
             this.activeUser.next(authUser);
         }
     }
@@ -60,8 +50,8 @@ export class AuthService {
             let details = { 'email': _username, 'password': _password };
 
             this.auth.login('basic', details).then((_result) => {
-                let aa = Object.assign({}, this.user.details, { id: this.user.id });
-                console.log('aa>', aa)
+//                let aa = Object.assign({}, this.user.details, { id: this.user.id });
+
                 // this.db.connect();
                 /*
                 "{
@@ -148,37 +138,3 @@ export class AuthService {
         this.activeUser.next(null)
     }
 }
-
-
-/*
-import { AngularFireAuth , FirebaseAuthState } from 'angularfire2';
-
-@Injectable()
-export class AuthService {
-    private authState: FirebaseAuthState = null;
-
-    constructor(   
-        public auth$: AngularFireAuth 
-    ) {
-        console.log('AuthService');
-
-        this.auth$.subscribe((state: FirebaseAuthState) => {
-            console.log('AuthService:state', state);
-            this.authState = state;
-        });
-    }
-
-    get authenticated(): boolean {
-        return this.authState !== null;
-    }
-
-    signOut(): void {
-        this.auth$.logout();
-    }
-    =/*
-        get authState(): FirebaseAuthState {
-            return this.authState;
-        }
-    =/
-}
-*/

@@ -29,9 +29,9 @@ export interface PageInterface {
   templateUrl: 'app.html'
 })
 export class MyApp {
-  @ViewChild(Nav) nav: Nav;
-
   private readonly CLASS_NAME = 'MyApp';
+
+  @ViewChild(Nav) nav: Nav;
 
   public displayUserName: string;
   // List of pages that can be navigated to from the left menu

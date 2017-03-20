@@ -1,4 +1,4 @@
-import {Component, ChangeDetectionStrategy, Input} from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 
 export type ErrorInput = any;
 
@@ -8,5 +8,12 @@ export type ErrorInput = any;
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Error {
+    private readonly CLASS_NAME = 'Error';
+
     @Input() error: ErrorInput;
+
+    constructor(
+    ) {
+        console.log(`%s:constructor`, this.CLASS_NAME);
+    }
 }

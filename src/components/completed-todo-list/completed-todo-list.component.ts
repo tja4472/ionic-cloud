@@ -9,6 +9,8 @@ import { Checkbox } from 'ionic-angular';
   templateUrl: 'completed-todo-list.component.html',
 })
 export class CompletedTodoListComponent {
+  private readonly CLASS_NAME = 'CompletedTodoListComponent';
+
   @Input() public data: TodoCompleted[];
 
   @Output() public checkItem = new EventEmitter<TodoCompleted>();
@@ -16,12 +18,14 @@ export class CompletedTodoListComponent {
   // @Output() public removeItem = new EventEmitter<RemoveItemOutput>();
 
   // public searchControl;
-public myGroup;
+  public myGroup;
 
-  constructor() {
+  constructor(
+  ) {
+    console.log(`%s:constructor`, this.CLASS_NAME);
     this.myGroup = new FormGroup({
-       searchControl: new FormControl()
-    });    
+      searchControl: new FormControl()
+    });
 
     // this.searchControl = this.myGroup.searchControl
   }
@@ -33,5 +37,5 @@ public myGroup;
 
   ionItem(item) {
     console.log("ionItem>>", item);
-  }  
+  }
 }

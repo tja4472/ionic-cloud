@@ -12,6 +12,8 @@ import { AuthService } from '../../services/auth.service'
   templateUrl: 'login.page.html'
 })
 export class LoginPage {
+  private readonly CLASS_NAME = 'LoginPage';
+
   public submitted = false;
   public loginForm: FormGroup;
 
@@ -22,8 +24,7 @@ export class LoginPage {
     private nav: NavController,
     private authService: AuthService,
   ) {
-    //
-    console.log('LoginPage:constructor');
+    console.log(`%s:constructor`, this.CLASS_NAME);
     this.loginForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],

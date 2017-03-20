@@ -10,8 +10,14 @@ import { ValidationService } from '../../services/validation.service';
   template: `<div *ngIf="errorMessage !== null">{{errorMessage}}</div>`,
 })
 export class ControlMessages {
+    private readonly CLASS_NAME = 'ControlMessages';
+
   @Input() control: FormControl;
-  constructor() { }
+  
+  constructor(
+  ) { 
+    console.log(`%s:constructor`, this.CLASS_NAME);    
+  }
 
   get errorMessage() {
     for (let propertyName in this.control.errors) {

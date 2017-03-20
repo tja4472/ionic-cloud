@@ -20,6 +20,8 @@ import { TodoCompleted } from '../models/todo-completed';
 
 @Injectable()
 export class CompletedTodoService {
+    private readonly CLASS_NAME = 'CompletedTodoService';
+
     private _todos: BehaviorSubject<TodoCompleted[]>;
     private dataStore: {  // This is where we will store our data in memory
         todos: TodoCompleted[]
@@ -36,7 +38,7 @@ export class CompletedTodoService {
         public db: Database,
         private authService: AuthService,
     ) {
-        console.log('CompletedTodoService~constructor');
+        console.log(`%s:constructor`, this.CLASS_NAME);
         this.dataStore = { todos: [] };
         this._todos = <BehaviorSubject<TodoCompleted[]>>new BehaviorSubject([]);
     }
@@ -53,7 +55,7 @@ export class CompletedTodoService {
     public load(
         activeUserId: string,
     ): void {
-        console.log('CompletedTodoService:load:activeUserId>', activeUserId);
+        console.log('%s:load:activeUserId>', this.CLASS_NAME, activeUserId);
 
         // this._todos = <BehaviorSubject<TodoCompleted[]>>new BehaviorSubject([]);
         this.db.collection(this.collectionName)
@@ -70,19 +72,19 @@ export class CompletedTodoService {
             err => { console.error(err); }
             );
     }
-/*
-    reorderItems(indexes: any) {
-        const itemsToSave = [...this.dataStore.todos];
-        reorderArray(itemsToSave, indexes);
-
-        let updates: any[] = [];
-        for (let x = 0; x < itemsToSave.length; x++) {
-            updates.push({ id: itemsToSave[x].id, index: x });
+    /*
+        reorderItems(indexes: any) {
+            const itemsToSave = [...this.dataStore.todos];
+            reorderArray(itemsToSave, indexes);
+    
+            let updates: any[] = [];
+            for (let x = 0; x < itemsToSave.length; x++) {
+                updates.push({ id: itemsToSave[x].id, index: x });
+            }
+    
+            this.db.collection(this.collectionName).update(updates);
         }
-
-        this.db.collection(this.collectionName).update(updates);
-    }
-*/
+    */
     removeItem(todo: TodoCompleted) {
         console.log('removeItem>', todo);
         this.db.collection(this.collectionName).remove(todo.id);
@@ -104,43 +106,43 @@ export class CompletedTodoService {
                 }
         */
     }
-/*
-    public toggleCompleteItem(todo: TodoCompleted): void {
-        todo.isComplete = !todo.isComplete;
-        this.saveItem(todo);
-    }
-*/    
-/*
-    private dummyData(): Observable<Todo[]> {
-        let data: Todo[] =
-            [{
-                id: 'AA',
-                description: 'AA-description',
-                name: 'AA-name',
-                index: 0,
-                isComplete: false,
-                userId: 'a01',
-            },
-            {
-                id: 'BB',
-                description: 'BB-description',
-                name: 'BB-name',
-                index: 0,
-                isComplete: false,
-                userId: 'a01',
-            },
-            {
-                id: 'CC',
-                description: 'CC-description',
-                name: 'CC-name',
-                index: 0,
-                isComplete: false,
-                userId: 'a01',
-            }];
-
-        return Observable.of(data);
-    }
-*/    
+    /*
+        public toggleCompleteItem(todo: TodoCompleted): void {
+            todo.isComplete = !todo.isComplete;
+            this.saveItem(todo);
+        }
+    */
+    /*
+        private dummyData(): Observable<Todo[]> {
+            let data: Todo[] =
+                [{
+                    id: 'AA',
+                    description: 'AA-description',
+                    name: 'AA-name',
+                    index: 0,
+                    isComplete: false,
+                    userId: 'a01',
+                },
+                {
+                    id: 'BB',
+                    description: 'BB-description',
+                    name: 'BB-name',
+                    index: 0,
+                    isComplete: false,
+                    userId: 'a01',
+                },
+                {
+                    id: 'CC',
+                    description: 'CC-description',
+                    name: 'CC-name',
+                    index: 0,
+                    isComplete: false,
+                    userId: 'a01',
+                }];
+    
+            return Observable.of(data);
+        }
+    */
 }
 
 // !!!!!!!!!!!!!!!!!!!!!!!!!!

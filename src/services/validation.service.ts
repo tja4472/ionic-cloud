@@ -2,6 +2,8 @@
 // https://coryrylan.com/blog/angular-2-form-builder-and-validation-management
 
 export class ValidationService {
+    private readonly CLASS_NAME = 'ValidationService';
+    
     static getValidatorErrorMessage(validatorName: string, validatorValue?: any) {
         let config = {
             'required': 'Required',
