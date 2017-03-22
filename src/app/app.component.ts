@@ -14,6 +14,8 @@ import { AuthService } from '../services/auth.service';
 import { CompletedTodoService } from '../services/completed-todo.service';
 import { CurrentTodoService } from '../services/current-todo.service';
 
+import { ActiveUser } from '../models/active-user';
+
 import { Database } from '@ionic/cloud-angular';
 
 export interface PageInterface {
@@ -54,7 +56,7 @@ export class MyApp {
     { title: 'Signup', component: SignupPage, icon: 'log-in' },
   ];
 
-  // currentUser;
+  currentUser: ActiveUser = null;
   rootPage: any; // = Page1;
 
   pages: Array<{ title: string, component: any }>;
@@ -66,137 +68,134 @@ export class MyApp {
     public loadingController: LoadingController,
     public platform: Platform,
     private completedTodoService: CompletedTodoService,
-    private todoService: CurrentTodoService,
+    private currentTodoService: CurrentTodoService,
   ) {
     console.log(`%s:constructor`, this.CLASS_NAME);
     this.initializeApp();
   }
 
-  initializeApp() {
-    console.log(`%s:initializeApp`, this.CLASS_NAME);
-    const loader = this.loadingController.create({
-      content: "Please wait..."
-      //duration: 3000
-    });
+  private authServiceSubscription() {
+    this.authService.activeUser
+      .subscribe(activeUser => {
+        console.log(`%s: -- authService.activeUser subscribe --`, this.CLASS_NAME);
+        console.log(`%s:activeUser>`, this.CLASS_NAME, activeUser);
+        this.currentUser = activeUser;
 
-    this.platform.ready().then(() => {
-      console.log(`%s:platform.ready()`, this.CLASS_NAME);
-      // console.log('Splashscreen.hide');
-      // Splashscreen.hide();
-
-      // check to see if there is already a user... Ionic saves it for you,
-      // this will automatically log the user in when you restart the application
-      this.authService.doCheckAuth();
-
-      // Logged out.
-      this.authService.activeUser
-        .filter(activeUser => activeUser === null)
-        .subscribe(() => {
-          console.log(`%s: -- authService.activeUser subscribe(A) --`, this.CLASS_NAME);
-          console.log(`%s:activeUser === null`, this.CLASS_NAME);
-          this.displayUserName = 'Not logged in';
-          this.enableMenu(false);
-          this.rootPage = LoginPage;
-        });
-
-      // Logged in.
-      this.authService.activeUser
-        .filter(activeUser => activeUser !== null)
-        .subscribe(activeUser => {
-          console.log(`%s: -- authService.activeUser subscribe(B) --`, this.CLASS_NAME);
-          console.log(`%s:activeUser !== null`, this.CLASS_NAME);
-          this.displayUserName = activeUser.email;
+        if (this.currentUser) {
+          console.log(`%s: -- logged in --`, this.CLASS_NAME);
+          this.displayUserName = this.currentUser.email;
           this.enableMenu(true);
           this.rootPage = CurrentTodosPage;
 
           console.log(`%s: -- Initial db.connect()`, this.CLASS_NAME);
           this.db.connect();
-        });
 
+        } else {
+          console.log(`%s: -- logged out --`, this.CLASS_NAME);
+          this.displayUserName = 'Not logged in';
+          this.enableMenu(false);
+          this.rootPage = LoginPage;
+        }
+      });
+  }
 
+  initializeApp() {
+    console.log(`%s:initializeApp`, this.CLASS_NAME);
 
-      this.db.status()
-        .subscribe(status => {
-          console.log(`%s: -- db.status() subscribe --`, this.CLASS_NAME);
-          console.log(`%s:status.type>`, this.CLASS_NAME, status.type);
+    this.platform.ready().then(() => {
+      console.log(`%s:platform.ready()`, this.CLASS_NAME);
+      StatusBar.styleDefault();
+      Splashscreen.hide();
 
-          if (this.authService.activeUser.value === null) {
-            return;
-          }
+      this.authServiceSubscription();
 
-          loader.present();
-
-          const activeUserId = this.authService.activeUser.value.id;
-          console.log('MyApp~DB activeUserId>', activeUserId);
-
-          if (status.type == 'reconnecting' || status.type == 'disconnected') {
-            console.log('MyApp~-- Trying to reconnect DB --');
-
-            setTimeout(() => {
-              console.log('MyApp~-- Retry DB connect --');
-              this.db.connect();
-            }, 4000);
-          }
-
-          if (status.type === 'connected') {
-            console.log('MyApp~-- connected --')
-
-            this.completedTodoService.load(activeUserId);
-            this.todoService.load(activeUserId);
-
-            loader.dismiss();
-          }
-        });
-
-
-
-
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      // StatusBar.styleDefault();
-      //     Splashscreen.hide();
-      /*
-            // subscribe to the activeUser to see if we should go to the LoginPage
-            // or directly to the HomePage since we have a user
-            this.authService.activeUser.subscribe((_user) => {
-              console.log('activeUser.subscribe>', _user);
-              // See feedly for _user data display.
-              // get the user...
-              // this.currentUser = _user
-              // this.completedTodoService.reset();
-              // this.todoService.reset();
-              // if user.. show data, else show login
-              if (_user) {
-                this.displayUserName = _user.email;
-                this.enableMenu(true);
-                this.rootPage = CurrentTodosPage;
-                // this.completedTodoService.load(_user.id);
-                // this.todoService.load(_user.id);
-              } else {
-                this.displayUserName = 'Not logged in';
-                this.enableMenu(false);
-                this.rootPage = LoginPage;
-              }
-      
-              this.nav.setRoot(this.rootPage)
-                .then(() => {
-                  console.log('Splashscreen.hide');
-                  Splashscreen.hide();
-                });
-            });
-      */
+      // check to see if there is already a user... Ionic saves it for you,
+      // this will automatically log the user in when you restart the application.
+      // This has to be done after platform.ready() else enableMenu() will
+      // not change menu.
+      this.authService.doCheckAuth();
     });
+
+    const loader = this.loadingController.create({
+      content: "Please wait..."
+    });
+
+    let loaderShown = false;
+
+
     /*
-        // check to see if there is already a user... Ionic saves it for you,
-        // this will automatically log the user in when you restart the application
-        this.authService.doCheckAuth();
+        this.authService.activeUser
+          .subscribe(activeUser => {
+            console.log(`%s: -- authService.activeUser subscribe --`, this.CLASS_NAME);
+            console.log(`%s:activeUser>`, this.CLASS_NAME, activeUser);
+            this.currentUser = activeUser;
+    
+            if (this.currentUser) {
+              console.log(`%s: -- logged in --`, this.CLASS_NAME);
+              this.displayUserName = this.currentUser.email;
+              this.enableMenu(true);
+              this.rootPage = CurrentTodosPage;
+    
+              console.log(`%s: -- Initial db.connect()`, this.CLASS_NAME);
+              this.db.connect();
+    
+            } else {
+              console.log(`%s: -- logged out --`, this.CLASS_NAME);
+              this.displayUserName = 'Not logged in';
+              this.enableMenu(false);
+              this.rootPage = LoginPage;
+            }
+          });
     */
+    loader.present().then(() => {
+      loaderShown = true;
+    });
+
+
+    this.db.status()
+      .subscribe(status => {
+        console.log(`%s: -- db.status() subscribe --`, this.CLASS_NAME);
+        console.log(`%s:status.type>`, this.CLASS_NAME, status.type);
+
+        //const activeUser = this.authService.activeUser.value;
+
+        if (!this.currentUser) {
+          return;
+        }
+
+        if (status.type == 'reconnecting' || status.type == 'disconnected') {
+          // console.log('MyApp~-- Trying to reconnect DB --');
+
+          /*
+          This might not be necessary. Ionic might do retries itself.
+                    setTimeout(() => {
+                      console.log('MyApp~-- Retry DB connect --');
+                      this.db.connect();
+                    }, 4000);
+          */
+        }
+
+        if (status.type === 'connected') {
+          // console.log('MyApp~-- connected --')
+
+          this.completedTodoService.load(this.currentUser.id);
+          this.currentTodoService.load(this.currentUser.id);
+
+          // this should only be called once.
+          if (loaderShown) {
+            loader.dismiss().then(() => {
+              loaderShown = false;
+            });
+          }
+        }
+      });
   }
 
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    this.nav.setRoot(page.component);
+    // this.nav.setRoot(page.component);
+this.rootPage = page.component;
 
     if (page.logsOut === true) {
       // Give the menu time to close before changing to logged out
@@ -207,8 +206,19 @@ export class MyApp {
   }
 
   enableMenu(loggedIn: boolean): void {
-    this.menu.enable(loggedIn, 'loggedInMenu');
-    this.menu.enable(!loggedIn, 'loggedOutMenu');
+    const loggedInMenu = 'loggedInMenu';
+    const loggedOutMenu = 'loggedOutMenu';
+
+    if (!this.menu.get(loggedInMenu)) {
+      console.error(`%s:enableMenu() *** WARNING: Menu not found>`, this.CLASS_NAME, loggedInMenu);
+    }
+
+    if (!this.menu.get(loggedOutMenu)) {
+      console.error(`%s:enableMenu() *** WARNING: Menu not found>`, this.CLASS_NAME, loggedOutMenu);
+    }
+
+    this.menu.enable(loggedIn, loggedInMenu);
+    this.menu.enable(!loggedIn, loggedOutMenu);
   }
 
   isActive(page: PageInterface) {
@@ -227,4 +237,6 @@ export class MyApp {
     }
     return;
   }
+
+
 }

@@ -6,8 +6,6 @@ import {
   PopoverController,
 } from 'ionic-angular';
 
-// import { Database } from '@ionic/cloud-angular';
-
 import { Observable } from 'rxjs/Observable';
 
 import { CurrentTodoService } from '../../services/current-todo.service';
@@ -21,11 +19,10 @@ import { MyPopoverPage, MyPopoverPageResult } from '../../components/popover/pop
   templateUrl: 'current-todos.page.html'
 })
 export class CurrentTodosPage {
-    private readonly CLASS_NAME = 'CurrentTodosPage';
+  private readonly CLASS_NAME = 'CurrentTodosPage';
   todos$: Observable<Todo[]>;
 
   constructor(
-    // public db: Database,
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     public popoverCtrl: PopoverController,
@@ -116,3 +113,33 @@ export class CurrentTodosPage {
     console.log('CurrentTodosPage:ionViewDidLeave');
   }
 }   
+
+/*    
+        this.todos =
+            [{
+                id: 'AA',
+                description: 'AA-description',
+                name: 'AA-name',
+                index: 0,
+                isComplete: false,
+                userId: 'a01',
+            },
+            {
+                id: 'BB',
+                description: 'BB-description',
+                name: 'BB-name',
+                index: 0,
+                isComplete: false,
+                userId: 'a01',
+            },
+            {
+                id: 'CC',
+                description: 'CC-description',
+                name: 'CC-name',
+                index: 0,
+                isComplete: false,
+                userId: 'a01',
+            }];   
+
+            this.todos$ = Observable.of(this.todos);     
+*/            

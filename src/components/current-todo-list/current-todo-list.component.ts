@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Todo } from '../../models/todo';
 
 
@@ -12,7 +12,6 @@ export type RemoveItemOutput = Todo;
 export type TodosInput = Todo[];
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'current-todo-list',
   templateUrl: 'current-todo-list.component.html',
 })
