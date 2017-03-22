@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { LoadingController, MenuController, Nav, Platform } from 'ionic-angular';
-import { StatusBar, Splashscreen } from 'ionic-native';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { CompletedTodosPage } from '../pages/completed-todos/completed-todos.page';
 import { CurrentTodosPage } from '../pages/current-todos/current-todos.page';
@@ -69,12 +70,14 @@ export class MyApp {
     public platform: Platform,
     private completedTodoService: CompletedTodoService,
     private currentTodoService: CurrentTodoService,
+    public statusBar: StatusBar,
+    public splashScreen: SplashScreen,
   ) {
     console.log(`%s:constructor`, this.CLASS_NAME);
     this.initializeApp();
   }
 
-  private authServiceSubscription() {
+  private setupAuthServiceSubscription() {
     this.authService.activeUser
       .subscribe(activeUser => {
         console.log(`%s: -- authService.activeUser subscribe --`, this.CLASS_NAME);
@@ -103,11 +106,14 @@ export class MyApp {
     console.log(`%s:initializeApp`, this.CLASS_NAME);
 
     this.platform.ready().then(() => {
+      // Okay, so the platform is ready and our plugins are available.
+      // Here you can do any higher level native things you might need.
       console.log(`%s:platform.ready()`, this.CLASS_NAME);
-      StatusBar.styleDefault();
-      Splashscreen.hide();
 
-      this.authServiceSubscription();
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+
+      this.setupAuthServiceSubscription();
 
       // check to see if there is already a user... Ionic saves it for you,
       // this will automatically log the user in when you restart the application.
@@ -183,8 +189,8 @@ export class MyApp {
 
           // this should only be called once.
           if (loaderShown) {
+            loaderShown = false;
             loader.dismiss().then(() => {
-              loaderShown = false;
             });
           }
         }
@@ -195,7 +201,7 @@ export class MyApp {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
     // this.nav.setRoot(page.component);
-this.rootPage = page.component;
+    this.rootPage = page.component;
 
     if (page.logsOut === true) {
       // Give the menu time to close before changing to logged out

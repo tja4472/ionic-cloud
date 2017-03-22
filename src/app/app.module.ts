@@ -12,6 +12,9 @@ const cloudSettings: CloudSettings = {
   }
 };
 
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
 import { CompletedTodoDetailPage } from '../pages/completed-todo-detail/completed-todo-detail.page';
 import { CompletedTodosPage } from '../pages/completed-todos/completed-todos.page';
 import { CurrentTodoDetailPage } from '../pages/current-todo-detail/current-todo-detail.page';
@@ -84,6 +87,8 @@ import { ValidationService } from '../services/validation.service';
     CompletedTodoService,
     CurrentTodoService,
     ValidationService,
+    StatusBar,
+    SplashScreen,    
     { provide: ErrorHandler, useClass: IonicErrorHandler }]
 })
 export class AppModule { }

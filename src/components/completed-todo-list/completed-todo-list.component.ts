@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TodoCompleted } from '../../models/todo-completed';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Checkbox } from 'ionic-angular';
 
 @Component({
-  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'completed-todo-list',
   templateUrl: 'completed-todo-list.component.html',
 })
