@@ -88,8 +88,10 @@ export class MyApp {
           console.log(`%s: -- logged in --`, this.CLASS_NAME);
           this.displayUserName = this.currentUser.email;
           this.enableMenu(true);
-          this.rootPage = CurrentTodosPage;
-
+          //this.rootPage = CurrentTodosPage;
+    this.nav.setRoot(CurrentTodosPage).catch(() => {
+      console.error("Didn't set nav root");
+    });
           console.log(`%s: -- Initial db.connect()`, this.CLASS_NAME);
           this.db.connect();
 
@@ -97,7 +99,10 @@ export class MyApp {
           console.log(`%s: -- logged out --`, this.CLASS_NAME);
           this.displayUserName = 'Not logged in';
           this.enableMenu(false);
-          this.rootPage = LoginPage;
+          // this.rootPage = LoginPage;
+    this.nav.setRoot(LoginPage).catch(() => {
+      console.error("Didn't set nav root");
+    });          
         }
       });
   }
@@ -197,11 +202,16 @@ export class MyApp {
       });
   }
 
-  openPage(page) {
-    // Reset the content nav to have just this page
+  openPage(
+    page,
+    ) {
+    // the nav component was found using @ViewChild(Nav)
+    // reset the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
-    // this.nav.setRoot(page.component);
-    this.rootPage = page.component;
+    // this.rootPage = page.component;
+    this.nav.setRoot(page.component).catch(() => {
+      console.error("Didn't set nav root");
+    });
 
     if (page.logsOut === true) {
       // Give the menu time to close before changing to logged out
