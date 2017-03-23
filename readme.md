@@ -5,6 +5,9 @@ ionic start ionic-cloud sidemenu --v2
 ```
 cordova platform add android
 
+ionic platform remove android
+ionic platform add android
+
 ionic run android --device
 
 a.a@a.com / password
