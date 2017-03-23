@@ -89,9 +89,9 @@ export class MyApp {
           this.displayUserName = this.currentUser.email;
           this.enableMenu(true);
           //this.rootPage = CurrentTodosPage;
-    this.nav.setRoot(CurrentTodosPage).catch(() => {
-      console.error("Didn't set nav root");
-    });
+          this.nav.setRoot(CurrentTodosPage).catch(() => {
+            console.error("Didn't set nav root");
+          });
           console.log(`%s: -- Initial db.connect()`, this.CLASS_NAME);
           this.db.connect();
 
@@ -100,9 +100,9 @@ export class MyApp {
           this.displayUserName = 'Not logged in';
           this.enableMenu(false);
           // this.rootPage = LoginPage;
-    this.nav.setRoot(LoginPage).catch(() => {
-      console.error("Didn't set nav root");
-    });          
+          this.nav.setRoot(LoginPage).catch(() => {
+            console.error("Didn't set nav root");
+          });
         }
       });
   }
@@ -204,7 +204,7 @@ export class MyApp {
 
   openPage(
     page,
-    ) {
+  ) {
     // the nav component was found using @ViewChild(Nav)
     // reset the nav to remove previous pages and only have this page
     // we wouldn't want the back button to show in this scenario
