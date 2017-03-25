@@ -27,7 +27,10 @@ https://forum.ionicframework.com/t/ionicdb-invalid-handshake/80297
 - Retrying in 5 seconds.
 
 # References
-- http://www.clearlyinnovative.com/user-authentication-with-ionic-cloud-auth-using-rxjsbehaviorsubject
+- 
+https://angular.io/docs/ts/latest/guide/reactive-forms.html
+
+http://www.clearlyinnovative.com/user-authentication-with-ionic-cloud-auth-using-rxjsbehaviorsubject
 - https://github.com/aaronksaunders/Ionic2-Ionic.io-Auth-Example
 - http://reactivex.io/rxjs/manual/overview.html#behaviorsubject
 

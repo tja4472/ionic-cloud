@@ -14,13 +14,17 @@ export class SignupPage {
   public submitted = false;
   public signupForm: FormGroup;
 
-  loginState$: any;
+  // loginState$: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
   ) {
     console.log(`%s:constructor`, this.CLASS_NAME);
+    this.createForm();
+  }
+
+  private createForm(): void {
     this.signupForm = this.formBuilder.group({
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
@@ -30,9 +34,10 @@ export class SignupPage {
   onSignup() {
     console.log('onSignup:this.signupForm.value>', this.signupForm.value);
     this.submitted = true;
+    const formModel = this.signupForm.value;
 
     if (this.signupForm.valid) {
-      this.authService.doSignup(this.signupForm.value.username, this.signupForm.value.password);
+      this.authService.doSignup(formModel.username, formModel.password);
     }
   }
 }

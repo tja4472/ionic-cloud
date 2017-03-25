@@ -13,6 +13,7 @@ export class CurrentTodoDetailPage {
 
     public todoForm: FormGroup;
 
+    // data model.
     private formResult: Todo =
     {
         id: undefined,
@@ -40,6 +41,10 @@ export class CurrentTodoDetailPage {
             this.formResult = paramTodo;
         }
 
+        this.createForm();
+    }
+
+    private createForm(): void {
         this.todoForm = this.formBuilder.group({
             nameA: [this.formResult.name, Validators.required],
             description: [this.formResult.description],
@@ -68,25 +73,26 @@ export class CurrentTodoDetailPage {
         // if(this.todoForm.touched)
         console.log(this.todoForm.value);
         console.log('this.formResult>', this.formResult);
-        this.formResult.description = this.todoForm.value.description;
-        this.formResult.isComplete = this.todoForm.value.isComplete;
-        this.formResult.name = this.todoForm.value.nameA;
-
+        // this.formResult.description = this.todoForm.value.description;
+        // this.formResult.isComplete = this.todoForm.value.isComplete;
+        // this.formResult.name = this.todoForm.value.nameA;
+        this.formResult = this.prepareSaveData();
+        
         this.viewController.dismiss(this.formResult);
-        /*        
-                    // Get error here with private todo when using popover.
-                    // Hence local.
-                
-                    let localTodo = assign(this.todo, {
-                      name: this.todoForm.value.name,
-                      isComplete: this.todoForm.value.isComplete
-                    });
-                
-                    // assign did not like optional property.
-                    localTodo.description = this.todoForm.value.description;
-                
-                    this.viewController.dismiss(localTodo);
-                  }
-                */
     }
+
+   private prepareSaveData(): Todo {
+    const formModel = this.todoForm.value;
+
+    const saveData: Todo = {
+      description: formModel.description,
+      id: this.formResult.id,
+      index: this.formResult.index,
+      isComplete: formModel.isComplete,
+      name: formModel.nameA,
+      userId: this.formResult.userId,
+    };
+
+    return saveData;
+  }   
 }
