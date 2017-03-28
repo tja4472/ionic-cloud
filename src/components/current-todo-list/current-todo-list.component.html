@@ -15,7 +15,7 @@
                 <ion-row center>
                     <ion-col col-auto>
                         <ion-checkbox [checked]="item.isComplete"
-                                      (ionChange)="checkboxChange($event, item)">
+                                      (ionChange)="toggleCompleteItem.emit(item)">
                         </ion-checkbox>
                     </ion-col>
                     <ion-col

@@ -9,6 +9,7 @@ import { reorderArray } from 'ionic-angular';
 import { AuthService } from '../services/auth.service';
 import { CompletedTodoService } from '../services/completed-todo.service';
 
+import { ReorderArrayIndexes } from '../models/reorder-array-indexes';
 import { Todo } from '../models/todo';
 import { TodoCompleted } from '../models/todo-completed';
 // const FIREBASE_CURRENT_TODOS = '/todo/currentTodos';
@@ -229,8 +230,7 @@ export class CurrentTodoService {
 
     // =======
 
-    //            reorderItemsAndUpdate(indexes: Indexes, todos: Todo[]) {
-    reorderItems(indexes: any) {
+    reorderItems(indexes: ReorderArrayIndexes) {
         const itemsToSave = [...this.dataStore.todos];
         reorderArray(itemsToSave, indexes);
 

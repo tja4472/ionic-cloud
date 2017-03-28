@@ -9,6 +9,8 @@ import {
 import { Observable } from 'rxjs/Observable';
 
 import { CurrentTodoService } from '../../services/current-todo.service';
+
+import { ReorderArrayIndexes } from '../../models/reorder-array-indexes';
 import { Todo } from '../../models/todo';
 
 import { CurrentTodoDetailPage } from '../current-todo-detail/current-todo-detail.page';
@@ -95,7 +97,7 @@ export class CurrentTodosPage {
     });
   }
 
-  reorderItems(indexes: any) {
+  reorderItems(indexes: ReorderArrayIndexes) {
     console.log('reorderItems:indexes>', indexes);
     console.log('reorderItems:indexes.from>', indexes.from);
     console.log('reorderItems:indexes.to>', indexes.to);

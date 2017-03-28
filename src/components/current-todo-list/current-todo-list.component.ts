@@ -1,15 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { ReorderArrayIndexes } from '../../models/reorder-array-indexes';
 import { Todo } from '../../models/todo';
-
-
-export type ToggleCompleteItemOutput = Todo;
-export type EditItemOutput = Todo;
-export type ReorderItemsOutput = {
-  from: number,
-  to: number
-};
-export type RemoveItemOutput = Todo;
-export type TodosInput = Todo[];
 
 @Component({
   selector: 'current-todo-list',
@@ -18,19 +10,15 @@ export type TodosInput = Todo[];
 export class CurrentTodoListComponent {
   private readonly CLASS_NAME = 'CurrentTodoListComponent';
 
-  @Input() public todos: TodosInput;
+  @Input() public todos: Todo[];
   @Output() public addItem = new EventEmitter();
-  @Output() public toggleCompleteItem = new EventEmitter<ToggleCompleteItemOutput>();
-  @Output() public editItem = new EventEmitter<EditItemOutput>();
-  @Output() public reorderItems = new EventEmitter<ReorderItemsOutput>();
-  @Output() public removeItem = new EventEmitter<RemoveItemOutput>();
+  @Output() public toggleCompleteItem = new EventEmitter<Todo>();
+  @Output() public editItem = new EventEmitter<Todo>();
+  @Output() public reorderItems = new EventEmitter<ReorderArrayIndexes>();
+  @Output() public removeItem = new EventEmitter<Todo>();
 
   constructor(
   ) {
     console.log(`%s:constructor`, this.CLASS_NAME);
-  }
-
-  checkboxChange(checkbox: any, item: any) {
-    console.log('checkboxChange');
   }
 }
