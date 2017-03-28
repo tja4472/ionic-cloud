@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { LoadingController, MenuController, Nav, Platform } from 'ionic-angular';
+import { Loading, LoadingController, MenuController, Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -110,6 +110,13 @@ export class MyApp {
   initializeApp() {
     console.log(`%s:initializeApp`, this.CLASS_NAME);
 
+    let loading: Loading;
+    let loadingCreated = false;
+
+    // check to see if there is already a user... Ionic saves it for you,
+    // this will automatically log the user in when you restart the application.
+    this.authService.doCheckAuth();
+
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
@@ -118,84 +125,67 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
 
+      // This has to be done after platform.ready() else enableMenu() will
+      // not change menu.
       this.setupAuthServiceSubscription();
 
       // check to see if there is already a user... Ionic saves it for you,
       // this will automatically log the user in when you restart the application.
       // This has to be done after platform.ready() else enableMenu() will
       // not change menu.
-      this.authService.doCheckAuth();
+      // this.authService.doCheckAuth();
     });
-
-    const loader = this.loadingController.create({
-      content: "Please wait..."
-    });
-
-    let loaderShown = false;
-
 
     /*
-        this.authService.activeUser
-          .subscribe(activeUser => {
-            console.log(`%s: -- authService.activeUser subscribe --`, this.CLASS_NAME);
-            console.log(`%s:activeUser>`, this.CLASS_NAME, activeUser);
-            this.currentUser = activeUser;
+        const loader = this.loadingController.create({
+          content: "Please wait..."
+        });
     
-            if (this.currentUser) {
-              console.log(`%s: -- logged in --`, this.CLASS_NAME);
-              this.displayUserName = this.currentUser.email;
-              this.enableMenu(true);
-              this.rootPage = CurrentTodosPage;
-    
-              console.log(`%s: -- Initial db.connect()`, this.CLASS_NAME);
-              this.db.connect();
-    
-            } else {
-              console.log(`%s: -- logged out --`, this.CLASS_NAME);
-              this.displayUserName = 'Not logged in';
-              this.enableMenu(false);
-              this.rootPage = LoginPage;
-            }
-          });
+        let loaderShown = false;    
     */
-    loader.present().then(() => {
-      loaderShown = true;
-    });
-
 
     this.db.status()
       .subscribe(status => {
         console.log(`%s: -- db.status() subscribe --`, this.CLASS_NAME);
-        console.log(`%s:status.type>`, this.CLASS_NAME, status.type);
-
-        //const activeUser = this.authService.activeUser.value;
+        console.log(`%s:db status>`, this.CLASS_NAME, status.type);
+        console.log(`%s:loadingCreated>`, this.CLASS_NAME, loadingCreated);
 
         if (!this.currentUser) {
           return;
         }
 
-        if (status.type == 'reconnecting' || status.type == 'disconnected') {
-          // console.log('MyApp~-- Trying to reconnect DB --');
-
-          /*
-          This might not be necessary. Ionic might do retries itself.
-                    setTimeout(() => {
-                      console.log('MyApp~-- Retry DB connect --');
-                      this.db.connect();
-                    }, 4000);
-          */
+        // User logged in.
+        if (status.type == 'reconnecting') {
+          if (!loadingCreated) {
+            loading = this.loadingController.create({
+              content: "Please wait..."
+            });
+            loadingCreated = true;
+            loading.present().then(() => {
+              // loadingCreated = true;
+            });
+          }
         }
-
+        /*        
+                if (status.type == 'reconnecting' || status.type == 'disconnected') {
+                  // console.log('MyApp~-- Trying to reconnect DB --');
+        
+        
+                  // This might not be necessary. Ionic might do retries itself.
+                  setTimeout(() => {
+                    console.log('MyApp~-- Retry DB connect --');
+                    this.db.connect();
+                  }, 4000);
+                }
+        */
         if (status.type === 'connected') {
-          // console.log('MyApp~-- connected --')
-
           this.completedTodoService.load(this.currentUser.id);
           this.currentTodoService.load(this.currentUser.id);
 
           // this should only be called once.
-          if (loaderShown) {
-            loaderShown = false;
-            loader.dismiss().then(() => {
+          if (loadingCreated) {
+            loadingCreated = false;
+            loading.dismiss().then(() => {
             });
           }
         }
