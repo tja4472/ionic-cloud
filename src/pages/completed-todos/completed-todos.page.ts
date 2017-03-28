@@ -31,12 +31,6 @@ export class CompletedTodosPage {
     // this.todoCompletedService.initialise();
   }
 
-  checkItem(item: TodoCompleted) {
-    if (!item.isComplete) {
-      this.currentTodoService.moveToCurrent(item);
-    }
-  }
-
   editItem(item: TodoCompleted) {
     console.log('editItem:item>', item);
 
@@ -62,6 +56,16 @@ export class CompletedTodosPage {
     });
 
     modal.present();
+  }
+
+  toggleCompleteItem(
+    item: TodoCompleted,
+  ) {
+    console.log('toggleCompleteItem:item>', item);
+
+    if (item.isComplete) {
+      this.currentTodoService.moveToCurrent(item);
+    }
   }
 
   ionViewDidLeave() {

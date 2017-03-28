@@ -161,13 +161,15 @@ export class CurrentTodoService {
         });
     }
 
-    public moveToCurrent(item: TodoCompleted): void {
+    public moveToCurrent(
+        item: TodoCompleted,
+        ): void {
         console.log('moveToCurrent>', item);
         let todo: Todo = {
             id: undefined,
             description: item.description,
             name: item.name,
-            isComplete: item.isComplete,
+            isComplete: false,
             index: 0,
             userId: item.userId,
         };

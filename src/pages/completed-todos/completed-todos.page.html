@@ -1,6 +1,8 @@
 <ion-header>
   <ion-navbar>
-    <button ion-button menuToggle icon-only>
+    <button ion-button
+            menuToggle
+            icon-only>
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Completed Todos</ion-title>
@@ -8,20 +10,7 @@
 </ion-header>
 
 <ion-content>
-  <completed-todo-list
-      [data]="data$ | async" 
-      (checkItem)="checkItem($event)"      
-      (editItem)="editItem($event)"   
-  ></completed-todo-list>
-
-  <!--
-{{data$ | async | json }}    
-  <todo-list 
-      [todos]="todos$ | async" 
-      (addItem)="addItem($event)"
-      (toggleCompleteItem)="toggleCompleteItem($event)"      
-      (editItem)="editItem($event)"
-      (reorderItems)="reorderItems($event)"
-  ></todo-list>
--->
+  <completed-todo-list [data]="data$ | async"
+                       (editItem)="editItem($event)"
+                       (toggleCompleteItem)="toggleCompleteItem($event)"></completed-todo-list>
 </ion-content>
